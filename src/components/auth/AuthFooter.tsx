@@ -23,12 +23,11 @@ export const AuthFooter = () => {
           {privacyLink.label}
         </a>
         <div className="order-3 flex shrink-0 items-center justify-center sm:justify-end">
-          <span
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-[10px] font-semibold text-white"
-            aria-label={core.label}
-          >
-            {core.label}
-          </span>
+          <img
+            src={core.src}
+            alt={core.label}
+            className="h-8 w-auto object-contain"
+          />
         </div>
       </div>
     </footer>

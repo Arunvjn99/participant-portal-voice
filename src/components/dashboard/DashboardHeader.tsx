@@ -1,5 +1,4 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Logo } from "../brand/Logo";
 import { branding } from "../../config/branding";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
@@ -20,11 +19,22 @@ export const DashboardHeader = () => {
     return location.pathname === path;
   };
 
+  const { logo, footer } = branding;
+
   return (
     <div className="dashboard-header">
       <div className="dashboard-header__brand">
-        <Logo className="dashboard-header__logo" variant="icon" />
-        <span className="dashboard-header__app-name">{branding.appName}</span>
+        <img
+          src={footer.core.src}
+          alt={footer.core.label}
+          className="dashboard-header__core-logo h-8 w-auto object-contain"
+        />
+        <span className="dashboard-header__brand-separator" aria-hidden />
+        <img
+          src={logo.src}
+          alt={logo.alt}
+          className="dashboard-header__ascend-logo h-8 w-auto object-contain"
+        />
       </div>
       <nav className="dashboard-header__nav" aria-label="Main navigation">
         <ul className="dashboard-header__nav-list">

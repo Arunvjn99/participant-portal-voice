@@ -1,7 +1,7 @@
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardHeader } from "../../components/dashboard/DashboardHeader";
 import { SaveToast } from "../../components/ui/SaveToast";
-import { thumbnails } from "../../assets/learning";
+import { SHARED_LEARNING_RESOURCES } from "../../assets/learning";
 import { advisorAvatars } from "../../assets/avatars";
 import { HeroEnrollmentCard } from "../../components/dashboard/HeroEnrollmentCard";
 import DashboardSection from "../../components/dashboard/DashboardSection";
@@ -27,34 +27,16 @@ export const Dashboard = () => {
             Learning Resources
           </h2>
           <LearningResourcesCarousel>
-            <LearningResourceCard
-              title="Understanding 401(k) Basics"
-              subtitle="Retirement Education Hub"
-              imageSrc={thumbnails.learning401k}
-              badge="Video"
-              index={0}
-            />
-            <LearningResourceCard
-              title="Investment Strategies for Retirement"
-              subtitle="Financial Planning Institute"
-              imageSrc={thumbnails.learningInvestment}
-              badge="Article"
-              index={1}
-            />
-            <LearningResourceCard
-              title="Maximizing Your Employer Match"
-              subtitle="Retirement Education Hub"
-              imageSrc={thumbnails.learningMatch}
-              badge="Video"
-              index={2}
-            />
-            <LearningResourceCard
-              title="Roth vs Traditional: Which is Right?"
-              subtitle="Financial Planning Institute"
-              imageSrc={thumbnails.learningInvestment}
-              badge="Article"
-              index={3}
-            />
+            {SHARED_LEARNING_RESOURCES.map((resource, index) => (
+              <LearningResourceCard
+                key={resource.id}
+                title={resource.title}
+                subtitle={resource.subtitle}
+                imageSrc={resource.imageSrc}
+                badge={resource.badge}
+                index={index}
+              />
+            ))}
           </LearningResourcesCarousel>
         </div>
 

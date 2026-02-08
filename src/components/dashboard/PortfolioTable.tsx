@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import type { PostEnrollmentPortfolioRow } from "../../data/postEnrollmentDashboard";
+import type { InvestmentAllocation } from "../../data/enrollmentSummary";
 
 interface PortfolioTableProps {
-  rows: PostEnrollmentPortfolioRow[];
+  rows: InvestmentAllocation[];
 }
 
 const formatCurrency = (n: number) =>
@@ -17,23 +17,24 @@ export const PortfolioTable = ({ rows }: PortfolioTableProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="ped-portfolio">
+    <div className="ped-portfolio bg-card rounded-xl border border-border p-6 shadow-sm min-h-fit w-full min-w-0">
       <div className="ped-portfolio__header">
         <h2 className="ped-portfolio__title">Your Portfolio</h2>
         <a href="/enrollment/plans" className="ped-portfolio__link">Compare All Plans →</a>
       </div>
+      <div className="ped-portfolio__sub-header">100% up to 6% Match</div>
       <p className="ped-portfolio__meta">
-        100% up to 6% Match. Contributions are pre-tax. You pay taxes upon withdrawal in retirement.
+        Contributions are pre-tax. You pay taxes upon withdrawal in retirement.
       </p>
       <div className="ped-portfolio__tabs">
         <button type="button" className="ped-portfolio__tab ped-portfolio__tab--active">
-          Employer Match
-        </button>
-        <button type="button" className="ped-portfolio__tab">
           Pre-tax contributions
         </button>
         <button type="button" className="ped-portfolio__tab">
           Immediate tax break
+        </button>
+        <button type="button" className="ped-portfolio__tab">
+          Employer Match
         </button>
       </div>
       <div className="ped-portfolio__table-wrap">

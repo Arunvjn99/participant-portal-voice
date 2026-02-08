@@ -1,7 +1,7 @@
-import type { PostEnrollmentGoalSimulator } from "../../data/postEnrollmentDashboard";
+import type { GoalProgress } from "../../data/enrollmentSummary";
 
 interface GoalSimulatorCardProps {
-  data: PostEnrollmentGoalSimulator;
+  data: GoalProgress;
 }
 
 const formatCurrency = (n: number) =>
@@ -16,8 +16,15 @@ export const GoalSimulatorCard = ({ data }: GoalSimulatorCardProps) => {
   const strokeDashoffset = circumference - (data.percentOnTrack / 100) * circumference;
 
   return (
-    <article className="ped-goal">
-      <h2 className="ped-goal__title">Goal Simulator</h2>
+    <article className="ped-goal bg-card rounded-xl border border-border p-6 shadow-sm min-h-fit w-full min-w-0">
+      <div className="ped-goal__header">
+        <h2 className="ped-goal__title">Goal Simulator</h2>
+        <button type="button" className="ped-goal__bookmark" aria-label="Bookmark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+          </svg>
+        </button>
+      </div>
       <div className="ped-goal__ring-wrap">
         <svg className="ped-goal__ring" viewBox="0 0 100 100">
           <circle

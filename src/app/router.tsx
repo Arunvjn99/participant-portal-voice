@@ -23,110 +23,116 @@ import { EnrollmentInvestmentsGuard } from "../components/enrollment/EnrollmentI
 import { EnrollmentInvestmentsContent } from "../components/enrollment/EnrollmentInvestmentsContent";
 import { EnrollmentReviewContent } from "../components/enrollment/EnrollmentReviewContent";
 import { VoiceModePage } from "../pages/voice/VoiceModePage";
+import { RootLayout } from "../layouts/RootLayout";
 
 /**
  * Router configuration using createBrowserRouter (React Router v6+)
- * Defines nested routes for enrollment flow
+ * RootLayout wraps all routes and renders FloatingRetirementSearch on every screen.
  */
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Login />,
-  },
-  {
-    path: "/verify",
-    element: <VerifyCode />,
-  },
-  {
-    path: "/forgot",
-    element: <ForgotPassword />,
-  },
-  {
-    path: "/reset",
-    element: <ResetPassword />,
-  },
-  {
-    path: "/help",
-    element: <HelpCenter />,
-  },
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
-  },
-  {
-    path: "/dashboard/post-enrollment",
-    element: <PostEnrollmentDashboard />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/enrollment",
-    element: <EnrollmentLayout />,
+    element: <RootLayout />,
     children: [
       {
-        index: true,
-        element: <EnrollmentManagement />,
+        path: "/",
+        element: <Login />,
       },
       {
-        path: "manage/:planId",
-        element: <PlanDetailManagement />,
+        path: "/verify",
+        element: <VerifyCode />,
       },
       {
-        path: "choose-plan",
-        element: <ChoosePlan />,
+        path: "/forgot",
+        element: <ForgotPassword />,
       },
       {
-        path: "plans",
-        element: <PlansPage />,
+        path: "/reset",
+        element: <ResetPassword />,
       },
       {
-        path: "contribution",
-        element: <Contribution />,
+        path: "/help",
+        element: <HelpCenter />,
       },
       {
-        path: "investments",
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/dashboard/post-enrollment",
+        element: <PostEnrollmentDashboard />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/enrollment",
+        element: <EnrollmentLayout />,
+        children: [
+          {
+            index: true,
+            element: <EnrollmentManagement />,
+          },
+          {
+            path: "manage/:planId",
+            element: <PlanDetailManagement />,
+          },
+          {
+            path: "choose-plan",
+            element: <ChoosePlan />,
+          },
+          {
+            path: "plans",
+            element: <PlansPage />,
+          },
+          {
+            path: "contribution",
+            element: <Contribution />,
+          },
+          {
+            path: "investments",
+            element: (
+              <EnrollmentInvestmentsGuard>
+                <EnrollmentInvestmentsContent />
+              </EnrollmentInvestmentsGuard>
+            ),
+          },
+          {
+            path: "review",
+            element: <EnrollmentReviewContent />,
+          },
+        ],
+      },
+      {
+        path: "/transactions",
+        element: <TransactionsHub />,
+      },
+      {
+        path: "/transactions/:transactionType/start",
+        element: <TransactionApplicationRouter />,
+      },
+      {
+        path: "/transactions/:transactionType/:transactionId",
+        element: <TransactionApplicationRouter />,
+      },
+      {
+        path: "/transactions/:transactionId",
+        element: <TransactionAnalysis />,
+      },
+      {
+        path: "/investments",
         element: (
-          <EnrollmentInvestmentsGuard>
-            <EnrollmentInvestmentsContent />
-          </EnrollmentInvestmentsGuard>
+          <InvestmentProvider>
+            <InvestmentsLayout>
+              <InvestmentsPage />
+            </InvestmentsLayout>
+          </InvestmentProvider>
         ),
       },
       {
-        path: "review",
-        element: <EnrollmentReviewContent />,
+        path: "/voice",
+        element: <VoiceModePage />,
       },
     ],
-  },
-  {
-    path: "/transactions",
-    element: <TransactionsHub />,
-  },
-  {
-    path: "/transactions/:transactionType/start",
-    element: <TransactionApplicationRouter />,
-  },
-  {
-    path: "/transactions/:transactionType/:transactionId",
-    element: <TransactionApplicationRouter />,
-  },
-  {
-    path: "/transactions/:transactionId",
-    element: <TransactionAnalysis />,
-  },
-  {
-    path: "/investments",
-    element: (
-      <InvestmentProvider>
-        <InvestmentsLayout>
-          <InvestmentsPage />
-        </InvestmentsLayout>
-      </InvestmentProvider>
-    ),
-  },
-  {
-    path: "/voice",
-    element: <VoiceModePage />,
   },
 ]);

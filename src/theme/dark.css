@@ -30,4 +30,17 @@
   --text-secondary: var(--color-text-secondary);
   --border: var(--color-border);
   --accent: var(--color-primary);
+  --bg-surface-muted: var(--color-background-secondary);
+  --banner-gradient: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+  /* Chart palette - slightly brighter for dark backgrounds */
+  --chart-1: #60a5fa;
+  --chart-2: #34d399;
+  --chart-3: #fbbf24;
+  --chart-4: #f87171;
+  --chart-5: #a78bfa;
+  --chart-6: #f472b6;
+  --chart-7: #22d3ee;
+  --chart-8: #a3e635;
+  --chart-9: #fb923c;
+  --chart-10: #818cf8;
 }

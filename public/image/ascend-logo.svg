@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 32" width="110" height="32">
+  <!-- Back shape (darker blue) -->
+  <path d="M4 8 L20 8 L28 24 L12 24 Z" fill="#1d4ed8"/>
+  <!-- Front shape (brighter blue) -->
+  <path d="M0 14 L14 14 L22 30 L8 30 Z" fill="#2563eb"/>
+  <!-- Ascend text -->
+  <text x="40" y="22" font-family="Georgia, serif" font-size="16" font-weight="600" fill="#2563eb">Ascend</text>
+</svg>

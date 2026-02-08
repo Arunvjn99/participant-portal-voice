@@ -1,8 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../ui/Modal";
 import { Dropdown, type DropdownOption } from "../ui/Dropdown";
 import {
+  loadEnrollmentDraft,
   saveEnrollmentDraft,
   type EnrollmentDraft,
 } from "../../enrollment/enrollmentDraftStore";
@@ -17,7 +18,7 @@ interface WizardFormState {
 }
 
 const DEFAULT_STATE: WizardFormState = {
-  currentAge: 30,
+  currentAge: 25,
   retirementAge: 65,
   annualSalary: 45000,
   retirementLocation: "New York",
@@ -94,6 +95,24 @@ export const PersonalizePlanModal = ({ isOpen, onClose }: PersonalizePlanModalPr
   const navigate = useNavigate();
   const [state, setState] = useState<WizardFormState>(DEFAULT_STATE);
 
+  // Load draft when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      const draft = loadEnrollmentDraft();
+      if (draft) {
+        setState((prev) => ({
+          ...prev,
+          currentAge: draft.currentAge ?? prev.currentAge,
+          retirementAge: draft.retirementAge ?? prev.retirementAge,
+          annualSalary: draft.annualSalary ?? prev.annualSalary,
+          retirementLocation: draft.retirementLocation || prev.retirementLocation,
+          savingsType: draft.otherSavings?.type ?? prev.savingsType,
+          savingsAmount: draft.otherSavings?.amount ?? prev.savingsAmount,
+        }));
+      }
+    }
+  }, [isOpen]);
+
   const updateState = useCallback(<K extends keyof WizardFormState>(
     key: K,
     value: WizardFormState[K]
@@ -138,58 +157,31 @@ export const PersonalizePlanModal = ({ isOpen, onClose }: PersonalizePlanModalPr
           </button>
         </div>
 
-        {/* Summary strip */}
+        {/* Summary strip - Figma: read-only current age + annual salary */}
         <div className="shrink-0 bg-sky-50 px-6 py-4 dark:bg-sky-950/40">
-          <div className="flex flex-wrap gap-6">
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              Your Age to Retire:{" "}
-              <span className="font-semibold text-blue-600 dark:text-blue-400">
-                {state.retirementAge} years
-              </span>
-            </p>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              Years to Retire:{" "}
-              <span className="font-semibold text-blue-600 dark:text-blue-400">
-                {yearsToRetire > 0 ? yearsToRetire : "-"} years
-              </span>
-            </p>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              Your Annual Salary:{" "}
-              <span className="font-semibold text-blue-600 dark:text-blue-400">
-                ${formatCurrency(state.annualSalary)}
-              </span>
-            </p>
+          <div className="flex flex-wrap gap-8">
+            <div>
+              <p className="text-sm text-slate-600 dark:text-slate-400">Your Current age</p>
+              <p className="text-base font-semibold text-blue-600 dark:text-blue-400">
+                {state.currentAge} years
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-slate-600 dark:text-slate-400">Your Annual Salary</p>
+              <p className="text-base font-semibold text-blue-600 dark:text-blue-400">
+                {formatCurrency(state.annualSalary)} $
+              </p>
+            </div>
           </div>
         </div>
 
         {/* Form content */}
         <div className="flex-1 overflow-y-auto px-6 py-6">
           <div className="space-y-8">
-            {/* Section 0: Current Age */}
-            <div>
-              <label className="block text-base font-semibold text-slate-900 dark:text-slate-100">
-                Current age
-              </label>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                Your age today for retirement projections.
-              </p>
-              <input
-                type="number"
-                min={18}
-                max={100}
-                value={state.currentAge}
-                onChange={(e) => {
-                  const v = parseInt(e.target.value, 10);
-                  if (!isNaN(v)) updateState("currentAge", Math.min(100, Math.max(18, v)));
-                }}
-                className="mt-4 w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
-              />
-            </div>
-
             {/* Section 1: Retirement Age */}
             <div>
               <label className="block text-base font-semibold text-slate-900 dark:text-slate-100">
-                What age would you like to retire?
+                What age would you like to Retire?
               </label>
               <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                 This helps us calculate how many years you have until retirement.
@@ -232,30 +224,17 @@ export const PersonalizePlanModal = ({ isOpen, onClose }: PersonalizePlanModalPr
                   className="h-10 w-16 rounded-lg border border-slate-200 bg-white px-3 text-center text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
                 />
               </div>
+              {state.retirementAge > state.currentAge && state.retirementAge <= 75 && (
+                <p className="mt-3 text-sm font-medium text-blue-600 dark:text-blue-400">
+                  You have {state.retirementAge - state.currentAge} {state.retirementAge - state.currentAge === 1 ? "year" : "years"} to retire.
+                </p>
+              )}
             </div>
 
-            {/* Section 2: Annual Salary */}
+            {/* Section 2: Retirement Location */}
             <div>
               <label className="block text-base font-semibold text-slate-900 dark:text-slate-100">
-                Annual Salary
-              </label>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                Your gross annual income for retirement projections.
-              </p>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={state.annualSalary ? formatCurrency(state.annualSalary) : ""}
-                onChange={(e) => updateState("annualSalary", parseCurrencyInput(e.target.value))}
-                placeholder="0"
-                className="mt-4 w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
-              />
-            </div>
-
-            {/* Section 3: Retirement Location */}
-            <div>
-              <label className="block text-base font-semibold text-slate-900 dark:text-slate-100">
-                Where would you like to retire?
+                Where would you like to Retire?
               </label>
               <div className="mt-4">
                 <Dropdown
@@ -269,7 +248,7 @@ export const PersonalizePlanModal = ({ isOpen, onClose }: PersonalizePlanModalPr
               </div>
             </div>
 
-            {/* Section 4: Other Savings */}
+            {/* Section 3: Other Savings */}
             <div>
               <label className="block text-base font-semibold text-slate-900 dark:text-slate-100">
                 Other savings
@@ -325,9 +304,12 @@ export const PersonalizePlanModal = ({ isOpen, onClose }: PersonalizePlanModalPr
               type="button"
               onClick={handleNext}
               disabled={!isFormValid}
-              className="rounded-lg bg-blue-600 px-6 py-2.5 font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-blue-500 dark:hover:bg-blue-600"
+              className="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-2.5 font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-blue-500 dark:hover:bg-blue-600"
             >
-              Next →
+              Next
+              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+                <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.06l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+              </svg>
             </button>
           </div>
         </div>

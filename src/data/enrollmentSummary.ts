@@ -1,36 +1,39 @@
 /**
- * Post-enrollment dashboard data (matches Figma 519-4705)
- * Data flow: selectedPlan, enrollment, account, performance, confirmed allocation
+ * Single source of truth for Post-Enrollment Dashboard
+ * All widgets read from this object. Do NOT recompute values inside components.
  */
 
-export interface PostEnrollmentPlan {
+import { SHARED_LEARNING_RESOURCES } from "../assets/learning";
+
+export interface PlanDetails {
   planId: string;
   planName: string;
   planType: string;
-  enrolledAt: string; // ISO date
+  enrolledAt: string;
   totalBalance: number;
-  ytdReturn: number; // percentage
-  employerMatchPct: number; // e.g. 92 for 92%
-  planFitPct?: number; // e.g. 90 for "90% Fit" badge
-  contributionRate: number; // e.g. 12 for 12%
+  ytdReturn: number;
+  employerMatchPct: number;
+  planFitPct?: number;
+  contributionRate: number;
 }
 
-export interface PostEnrollmentBalances {
-  rolloverEligible: number;
-  availableCash: number; // can be negative (est. after taxes/penalties)
-  restricted: number;
+export interface ContributionRates {
+  preTax: number;
+  roth: number;
+  afterTax: number;
+  total: number;
 }
 
-export interface PostEnrollmentPortfolioRow {
+export interface InvestmentAllocation {
   fundId: string;
   fundName: string;
   ticker: string;
   balance: number;
   allocationPct: number;
-  returnPct: number; // YTD or period return
+  returnPct: number;
 }
 
-export interface PostEnrollmentGoalSimulator {
+export interface GoalProgress {
   percentOnTrack: number;
   retirementAge: number;
   monthlyContribution: number;
@@ -39,15 +42,7 @@ export interface PostEnrollmentGoalSimulator {
   salary?: number;
 }
 
-export interface SmartNudge {
-  id: string;
-  title: string;
-  insight: string;
-  actionLabel: string;
-  actionRoute: string;
-}
-
-export interface PostEnrollmentTransaction {
+export interface Transaction {
   id: string;
   type: "contribution" | "employer-match" | "fee" | "dividend" | "loan-repayment";
   description: string;
@@ -56,35 +51,51 @@ export interface PostEnrollmentTransaction {
   account?: string;
 }
 
-export interface PostEnrollmentDashboardData {
-  plan: PostEnrollmentPlan;
-  balances: PostEnrollmentBalances;
-  portfolio: PostEnrollmentPortfolioRow[];
-  goalSimulator: PostEnrollmentGoalSimulator;
-  allocationDescription: string;
-  smartNudges: SmartNudge[];
+export interface LearningResource {
+  id: string;
+  title: string;
+  badge: string;
+  /** Thumbnail path from pre-enrollment assets */
+  imageSrc: string;
+  subtitle?: string;
+}
+
+export interface Balances {
+  rolloverEligible: number;
+  availableCash: number;
+  restricted: number;
+}
+
+export interface EnrollmentSummary {
+  planDetails: PlanDetails | null;
+  balances: Balances | null;
+  contributionRates: ContributionRates | null;
+  investmentAllocations: InvestmentAllocation[];
+  goalProgress: GoalProgress | null;
   topBanner: {
     percentOnTrack: number;
     subText: string;
     actionRoute: string;
-  };
-  isWithdrawalRestricted: boolean;
-  recentTransactions: PostEnrollmentTransaction[];
+  } | null;
+  transactions: Transaction[];
   rateOfReturn: {
     confidencePct: number;
     message: string;
     timeRange: "5Y" | "1Y" | "3M";
-  };
+  } | null;
   onboardingProgress: {
     percentComplete: number;
     badgesCompleted: number;
     badgesTotal: number;
     message: string;
-  };
+  } | null;
+  learningResources: LearningResource[];
+  isWithdrawalRestricted: boolean;
+  allocationDescription: string | null;
 }
 
-export const MOCK_POST_ENROLLMENT: PostEnrollmentDashboardData = {
-  plan: {
+export const MOCK_ENROLLMENT_SUMMARY: EnrollmentSummary = {
+  planDetails: {
     planId: "plan-1",
     planName: "TechVantage 401(k) Retirement Plan",
     planType: "401(k)",
@@ -100,13 +111,19 @@ export const MOCK_POST_ENROLLMENT: PostEnrollmentDashboardData = {
     availableCash: -187192.8,
     restricted: 27000,
   },
-  portfolio: [
+  contributionRates: {
+    preTax: 100,
+    roth: 0,
+    afterTax: 0,
+    total: 12,
+  },
+  investmentAllocations: [
     { fundId: "fund-1", fundName: "Vanguard 500 Index Fund", ticker: "VINIX", balance: 98500, allocationPct: 42, returnPct: 14.2 },
     { fundId: "fund-2", fundName: "Fidelity Total Market Index", ticker: "FSMKX", balance: 62000, allocationPct: 26, returnPct: 13.8 },
     { fundId: "fund-5", fundName: "International Growth Fund", ticker: "RERGX", balance: 38000, allocationPct: 16, returnPct: -2.1 },
     { fundId: "fund-7", fundName: "Bond Market Index Fund", ticker: "VBTLX", balance: 36492, allocationPct: 16, returnPct: 3.2 },
   ],
-  goalSimulator: {
+  goalProgress: {
     percentOnTrack: 90,
     retirementAge: 65,
     monthlyContribution: 1200,
@@ -114,30 +131,12 @@ export const MOCK_POST_ENROLLMENT: PostEnrollmentDashboardData = {
     currentAge: 31,
     salary: 85000,
   },
-  allocationDescription: "Based on your age (31) and risk profile, this growth-focused mix aims to maximize returns while managing volatility.",
-  smartNudges: [
-    {
-      id: "nudge-1",
-      title: "Maximize your match",
-      insight: "You're currently contributing 12%. Increasing to 13% would secure an additional $1,240/year in employer matching.",
-      actionLabel: "Increase to 13%",
-      actionRoute: "/enrollment/contribution",
-    },
-    {
-      id: "nudge-2",
-      title: "The power of patience",
-      insight: "Delaying retirement by just 2 years to age 67 would add an estimated $162,000 to your final balance.",
-      actionLabel: "See Projection",
-      actionRoute: "/investments",
-    },
-  ],
   topBanner: {
     percentOnTrack: 72,
     subText: "Increase your contribution by 2% to reach 100% confidence.",
     actionRoute: "/enrollment/contribution",
   },
-  isWithdrawalRestricted: true,
-  recentTransactions: [
+  transactions: [
     { id: "t1", type: "loan-repayment", description: "Loan Repayment", date: "2025-01-15", amount: -500, account: "Traditional 401K" },
     { id: "t2", type: "dividend", description: "Dividend Credit", date: "2025-01-10", amount: 127.5, account: "Traditional 401K" },
     { id: "t3", type: "employer-match", description: "Employer Match", date: "2025-01-10", amount: 450, account: "Traditional 401K" },
@@ -155,4 +154,13 @@ export const MOCK_POST_ENROLLMENT: PostEnrollmentDashboardData = {
     badgesTotal: 5,
     message: "Complete profile to start earning achievement badges and unlock resources.",
   },
+  learningResources: SHARED_LEARNING_RESOURCES.map((r) => ({
+    id: r.id,
+    title: r.title,
+    badge: r.badge,
+    imageSrc: r.imageSrc,
+    subtitle: r.subtitle,
+  })),
+  isWithdrawalRestricted: true,
+  allocationDescription: "Based on your age (31) and risk profile, this growth-focused mix aims to maximize returns while managing volatility.",
 };

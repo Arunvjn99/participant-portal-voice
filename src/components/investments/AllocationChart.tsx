@@ -59,18 +59,18 @@ export const AllocationChart = ({
   const total = activeAllocations.reduce((sum, a) => sum + a.percentage, 0);
   const displayValue = centerValue ?? total.toFixed(0);
 
-  // Color palette for different funds
-  const colors = [
-    "#3b82f6", // blue
-    "#10b981", // green
-    "#f59e0b", // amber
-    "#ef4444", // red
-    "#8b5cf6", // purple
-    "#ec4899", // pink
-    "#06b6d4", // cyan
-    "#84cc16", // lime
-    "#f97316", // orange
-    "#6366f1", // indigo
+  // Color palette - theme-aware via CSS variables
+  const chartColors = [
+    "var(--chart-1)",
+    "var(--chart-2)",
+    "var(--chart-3)",
+    "var(--chart-4)",
+    "var(--chart-5)",
+    "var(--chart-6)",
+    "var(--chart-7)",
+    "var(--chart-8)",
+    "var(--chart-9)",
+    "var(--chart-10)",
   ];
 
   return (
@@ -104,7 +104,7 @@ export const AllocationChart = ({
               `A 80 80 0 ${largeArc} 1 ${x2} ${y2}`,
             ].join(" ");
 
-            const color = colors[index % colors.length];
+            const color = chartColors[index % chartColors.length];
             const prevAngle = currentAngle;
             currentAngle += angle;
 
@@ -148,7 +148,7 @@ export const AllocationChart = ({
         {activeAllocations.map((allocation, index) => {
           const fund = getFundById(allocation.fundId);
           if (!fund) return null;
-          const color = colors[index % colors.length];
+          const color = chartColors[index % chartColors.length];
           
           return (
             <div key={allocation.fundId} className="allocation-chart__legend-item">

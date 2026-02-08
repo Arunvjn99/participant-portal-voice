@@ -79,7 +79,27 @@
 
   /* Dashboard semantic aliases */
   --bg-surface: var(--color-surface);
+  --bg-surface-muted: var(--color-background-secondary);
   --bg-elevated: var(--color-surface-elevated);
   --border-subtle: var(--color-border);
   --accent-primary: var(--color-primary);
+  --accent-success: var(--color-success);
+  --accent-warning: var(--color-warning);
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-success-light: #d1fae5;
+  --banner-gradient: linear-gradient(135deg, #3b82f6 0%, #5b21b6 100%);
+  --banner-gradient-dark: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+  /* Chart palette - theme-aware */
+  --chart-1: #3b82f6;
+  --chart-2: #10b981;
+  --chart-3: #f59e0b;
+  --chart-4: #ef4444;
+  --chart-5: #8b5cf6;
+  --chart-6: #ec4899;
+  --chart-7: #06b6d4;
+  --chart-8: #84cc16;
+  --chart-9: #f97316;
+  --chart-10: #6366f1;
 }

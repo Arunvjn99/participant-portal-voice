@@ -22,4 +22,6 @@
   --text-secondary: var(--color-text-secondary);
   --border: var(--color-border);
   --accent: var(--color-primary);
+  --bg-surface-muted: var(--color-background-secondary);
+  --banner-gradient: linear-gradient(135deg, #3b82f6 0%, #5b21b6 100%);
 }
