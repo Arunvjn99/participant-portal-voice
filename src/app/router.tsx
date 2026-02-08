@@ -12,7 +12,6 @@ import { PlanDetailManagement } from "../pages/enrollment/PlanDetailManagement";
 import { ChoosePlan } from "../pages/enrollment/ChoosePlan";
 import { PlansPage } from "../pages/enrollment/PlansPage";
 import { Contribution } from "../pages/enrollment/Contribution";
-import { Review } from "../pages/enrollment/Review";
 import { TransactionsHub } from "../pages/transactions/TransactionsHub";
 import { TransactionAnalysis } from "../pages/transactions/TransactionAnalysis";
 import { TransactionApplicationRouter } from "../pages/transactions/applications/TransactionApplicationRouter";
@@ -20,6 +19,9 @@ import { EnrollmentLayout } from "../layouts/EnrollmentLayout";
 import { InvestmentProvider } from "../context/InvestmentContext";
 import InvestmentsLayout from "../app/investments/layout";
 import InvestmentsPage from "../app/investments/page";
+import { EnrollmentInvestmentsGuard } from "../components/enrollment/EnrollmentInvestmentsGuard";
+import { EnrollmentInvestmentsContent } from "../components/enrollment/EnrollmentInvestmentsContent";
+import { EnrollmentReviewContent } from "../components/enrollment/EnrollmentReviewContent";
 import { VoiceModePage } from "../pages/voice/VoiceModePage";
 
 /**
@@ -86,20 +88,14 @@ export const router = createBrowserRouter([
       {
         path: "investments",
         element: (
-          <InvestmentProvider>
-            <InvestmentsLayout>
-              <InvestmentsPage />
-            </InvestmentsLayout>
-          </InvestmentProvider>
+          <EnrollmentInvestmentsGuard>
+            <EnrollmentInvestmentsContent />
+          </EnrollmentInvestmentsGuard>
         ),
       },
       {
         path: "review",
-        element: (
-          <InvestmentProvider>
-            <Review />
-          </InvestmentProvider>
-        ),
+        element: <EnrollmentReviewContent />,
       },
     ],
   },
@@ -122,9 +118,11 @@ export const router = createBrowserRouter([
   {
     path: "/investments",
     element: (
-      <InvestmentsLayout>
-        <InvestmentsPage />
-      </InvestmentsLayout>
+      <InvestmentProvider>
+        <InvestmentsLayout>
+          <InvestmentsPage />
+        </InvestmentsLayout>
+      </InvestmentProvider>
     ),
   },
   {

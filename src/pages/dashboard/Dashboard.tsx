@@ -1,5 +1,6 @@
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardHeader } from "../../components/dashboard/DashboardHeader";
+import { SaveToast } from "../../components/ui/SaveToast";
 import { thumbnails } from "../../assets/learning";
 import { advisorAvatars } from "../../assets/avatars";
 import { HeroEnrollmentCard } from "../../components/dashboard/HeroEnrollmentCard";
@@ -15,6 +16,7 @@ import { ValuePropCard } from "../../components/dashboard/ValuePropCard";
 export const Dashboard = () => {
   return (
     <DashboardLayout header={<DashboardHeader />}>
+      <SaveToast />
       <HeroEnrollmentCard />
 
       {/* Learning Resources (left) + Personalized Score (right) - Figma layout */}

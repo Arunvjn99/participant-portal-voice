@@ -1,4 +1,4 @@
-import type { Fund } from "../types/investment";
+import type { Fund, AssetClass } from "../types/investment";
 
 /**
  * Mock investment funds data

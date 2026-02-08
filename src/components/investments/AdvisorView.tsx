@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { DashboardCard } from "../dashboard/DashboardCard";
+import Button from "../ui/Button";
 import { useInvestment } from "../../context/InvestmentContext";
 import { getFundById } from "../../data/mockFunds";
 
@@ -7,8 +9,10 @@ import { getFundById } from "../../data/mockFunds";
  */
 export const AdvisorView = () => {
   const { draftAllocation } = useInvestment();
+  const [showAdvisorModal, setShowAdvisorModal] = useState(false);
 
   return (
+    <>
     <DashboardCard>
       <div className="advisor-view">
         <div className="advisor-view__header">
@@ -17,6 +21,14 @@ export const AdvisorView = () => {
             Your investment portfolio is professionally managed by your financial advisor. They will
             monitor and adjust your allocation based on market conditions and your retirement goals.
           </p>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setShowAdvisorModal(true)}
+            className="advisor-view__cta"
+          >
+            Contact Advisor
+          </Button>
         </div>
 
         <div className="advisor-view__current-allocation">
@@ -55,5 +67,29 @@ export const AdvisorView = () => {
         </div>
       </div>
     </DashboardCard>
+    {showAdvisorModal && (
+      <div
+        className="advisor-view__modal-overlay"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="advisor-modal-title"
+      >
+        <div className="advisor-view__modal">
+          <h2 id="advisor-modal-title" className="advisor-view__modal-title">
+            Contact Your Advisor
+          </h2>
+          <p className="advisor-view__modal-text">
+            Reach out to your financial advisor to discuss your investment strategy or schedule a
+            meeting. You can continue with enrollment without contacting your advisor.
+          </p>
+          <div className="advisor-view__modal-actions">
+            <Button type="button" onClick={() => setShowAdvisorModal(false)}>
+              Close
+            </Button>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
   );
 };

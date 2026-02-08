@@ -24,6 +24,36 @@
   background-color: var(--color-background-tertiary);
 }
 
+/* Enrollment Footer - unified sticky footer */
+.dark .enrollment-footer {
+  border-top-color: var(--color-border);
+  background-color: var(--color-background);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark .enrollment-footer__back:hover:not(:disabled) {
+  background-color: var(--color-background-secondary);
+}
+
+.dark .enrollment-footer__save-exit {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.dark .enrollment-footer__save-exit:hover:not(:disabled) {
+  background-color: var(--color-background-secondary);
+  border-color: var(--color-primary);
+}
+
+.dark .enrollment-footer__primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.dark .enrollment-footer__summary--error {
+  color: #f87171;
+}
+
 /* Plan selection card - standard benefit chips */
 .dark .plan-selection-card--standard .plan-selection-card__benefit-chip {
   background-color: var(--color-background-tertiary);
@@ -294,4 +324,331 @@
 
 .dark .contrib-footer__btn--primary:hover:not(:disabled) {
   background: var(--color-primary-hover);
+}
+
+/* ========== Investments Page ========== */
+.dark .fund-allocation-row {
+  background-color: var(--color-background-tertiary);
+  border-color: var(--color-border);
+}
+
+.dark .fund-allocation-row__name {
+  color: var(--color-text);
+}
+
+.dark .fund-allocation-row__ticker-pill {
+  background-color: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+}
+
+.dark .fund-allocation-row__detail-inline {
+  color: var(--color-text-secondary);
+}
+
+.dark .fund-allocation-row__slider {
+  background: linear-gradient(
+    to right,
+    var(--color-primary) 0%,
+    var(--color-primary) var(--slider-pct, 0%),
+    var(--color-background) var(--slider-pct, 0%),
+    var(--color-background) 100%
+  );
+}
+
+.dark .fund-allocation-row__slider::-webkit-slider-thumb {
+  background: var(--color-primary);
+  border-color: var(--color-background-tertiary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.dark .fund-allocation-row__slider::-moz-range-thumb {
+  background: var(--color-primary);
+  border-color: var(--color-background-tertiary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.dark .fund-allocation-row__slider:disabled {
+  opacity: 0.5;
+}
+
+.dark .fund-allocation-row__remove {
+  color: #f87171;
+}
+
+.dark .fund-allocation-row__remove:hover {
+  background-color: rgba(248, 113, 113, 0.15);
+}
+
+.dark .fund-allocation-row .input,
+.dark .fund-allocation-row .input-wrapper input {
+  background-color: var(--color-background);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.dark .fund-allocation-row .input:focus {
+  border-color: var(--color-primary);
+}
+
+/* Source Accordion */
+.dark .source-accordion {
+  border-color: var(--color-border);
+}
+
+.dark .source-accordion__trigger {
+  background-color: var(--color-background-secondary);
+  color: var(--color-text);
+}
+
+.dark .source-accordion__trigger:hover {
+  background-color: var(--color-background-tertiary);
+}
+
+.dark .source-accordion__title,
+.dark .source-accordion__total {
+  color: var(--color-text);
+}
+
+.dark .source-accordion__meta,
+.dark .source-accordion__chevron {
+  color: var(--color-text-secondary);
+}
+
+.dark .source-accordion__description {
+  color: var(--color-text-secondary);
+}
+
+.dark .source-accordion__add-btn {
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.dark .source-accordion__add-btn:hover {
+  background-color: var(--color-background-tertiary);
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.dark .source-accordion__add-btn--primary {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.dark .source-accordion__add-btn--primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.dark .source-accordion__success {
+  color: var(--color-text);
+}
+
+.dark .source-accordion__success-icon {
+  color: #34d399;
+}
+
+.dark .source-accordion__error {
+  color: #f87171;
+}
+
+/* Allocation Summary */
+.dark .allocation-summary__title {
+  color: var(--color-text);
+}
+
+.dark .allocation-summary__subtitle,
+.dark .allocation-summary__auto-rebalance-text {
+  color: var(--color-text-secondary);
+}
+
+.dark .allocation-summary__metric-label {
+  color: var(--color-text-secondary);
+}
+
+.dark .allocation-summary__metric-value {
+  color: var(--color-text);
+}
+
+.dark .allocation-summary__validation {
+  background-color: var(--color-background-secondary);
+}
+
+.dark .allocation-summary__total-label {
+  color: var(--color-text);
+}
+
+.dark .allocation-summary__total-value--valid {
+  color: #34d399;
+}
+
+.dark .allocation-summary__total-value--invalid {
+  color: #f87171;
+}
+
+.dark .allocation-summary__error {
+  color: #f87171;
+}
+
+.dark .allocation-summary__risk-labels {
+  color: var(--color-text-secondary);
+}
+
+.dark .allocation-summary__risk-value {
+  color: var(--color-text-secondary);
+}
+
+.dark .allocation-summary__risk-marker {
+  background: var(--color-text);
+  border-color: var(--color-background);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.dark .advisor-help-card {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(139, 92, 246, 0.15) 100%);
+  border-color: rgba(124, 58, 237, 0.3);
+}
+
+.dark .advisor-help-card__icon {
+  color: #a78bfa;
+}
+
+.dark .advisor-help-card__title {
+  color: var(--color-text);
+}
+
+.dark .advisor-help-card__text {
+  color: var(--color-text-secondary);
+}
+
+.dark .advisor-help-card__btn {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+}
+
+.dark .advisor-help-card__btn:hover {
+  opacity: 0.95;
+}
+
+.dark .allocation-chart__center-value {
+  color: #34d399;
+}
+
+.dark .allocation-chart__valid-badge--valid {
+  background-color: #22c55e;
+  color: white;
+}
+
+.dark .allocation-summary__metric-value--success {
+  color: #34d399;
+}
+
+/* Manual Builder */
+.dark .manual-builder__edit-toggle-text {
+  color: var(--color-text);
+}
+
+.dark .manual-builder__edit-toggle-hint {
+  color: var(--color-text-secondary);
+}
+
+.dark .manual-builder__allocation-title {
+  color: var(--color-text);
+}
+
+/* Allocation Chart */
+.dark .allocation-chart__background {
+  stroke: var(--color-border);
+}
+
+/* Investments Layout */
+.dark .investments-footer {
+  background-color: var(--color-background);
+  border-top-color: var(--color-border);
+}
+
+/* ========== Review Page (Step 4/4) ========== */
+.dark .review-page__title {
+  color: var(--color-text);
+}
+
+.dark .review-page__description {
+  color: var(--color-text-secondary);
+}
+
+.dark .review-page__goal-simulator-card {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.dark .review-page__contribution-card {
+  background-color: var(--color-background-secondary);
+  border-color: var(--color-border);
+}
+
+.dark .review-page__contribution-value {
+  color: var(--color-text);
+}
+
+.dark .review-page__contribution-label {
+  color: var(--color-text-secondary);
+}
+
+.dark .review-page__allocation-error-banner {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: #f87171;
+  color: #f87171;
+}
+
+.dark .review-page__investments-total--invalid {
+  color: #f87171;
+}
+
+.dark .review-page__allocation-status--invalid {
+  color: #f87171;
+}
+
+.dark .review-page__allocation-metric-label {
+  color: var(--color-text-secondary);
+}
+
+.dark .review-page__allocation-metric-value {
+  color: var(--color-text);
+}
+
+.dark .review-page__risk-slider-track {
+  background: var(--color-border);
+}
+
+.dark .review-page__risk-slider-label {
+  color: var(--color-text-secondary);
+}
+
+.dark .review-page__document-item {
+  border-color: var(--color-border);
+  background-color: var(--color-background-secondary);
+}
+
+.dark .review-page__plan-risk-pill {
+  background-color: var(--color-background-tertiary);
+  color: var(--color-text);
+}
+
+.dark .review-page__edit-link,
+.dark .review-page__edit-elections-link {
+  color: var(--color-primary);
+}
+
+.dark .review-page__edit-elections-link--error {
+  color: #f87171;
+}
+
+.dark .review-page__auto-rebalance-slider {
+  background-color: var(--color-border);
+}
+
+.dark .review-page__documents-required-count {
+  color: #f87171;
+}
+
+.dark .review-page__apply-suggestion-btn {
+  background-color: var(--color-primary) !important;
+  color: white !important;
 }

@@ -3,7 +3,7 @@ interface EnrollmentStepperProps {
 }
 
 const STEPS = [
-  { label: "Plan Selection", step: 0 },
+  { label: "Plan", step: 0 },
   { label: "Contribution", step: 1 },
   { label: "Investments", step: 2 },
   { label: "Review", step: 3 },

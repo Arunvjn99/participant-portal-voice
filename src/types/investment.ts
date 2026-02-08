@@ -31,6 +31,30 @@ export interface Allocation {
   percentage: number; // 0-100
 }
 
+/** Canonical fund allocation per source (Investment Elections) */
+export interface FundAllocation {
+  fundId: string;
+  fundName: string;
+  assetClass: string;
+  expenseRatio: number;
+  riskScore: number;
+  allocationPercent: number;
+}
+
+/** Per-source allocation - only keys with value > 0 appear */
+export type InvestmentAllocation = {
+  preTax?: { funds: FundAllocation[] };
+  roth?: { funds: FundAllocation[] };
+  afterTax?: { funds: FundAllocation[] };
+};
+
+/** Contribution sources - only keys with value > 0 are active */
+export type ContributionSources = {
+  preTax?: number;
+  roth?: number;
+  afterTax?: number;
+};
+
 export interface AllocationState {
   allocations: Allocation[];
   isValid: boolean;

@@ -3,9 +3,11 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardHeader } from "../../components/dashboard/DashboardHeader";
 import { useEnrollment } from "../../enrollment/context/EnrollmentContext";
-import { StepProgressIndicator } from "../../components/enrollment/StepProgressIndicator";
+import { EnrollmentStepper } from "../../components/enrollment/EnrollmentStepper";
+import { InvestmentProfileWizard } from "../../components/enrollment/InvestmentProfileWizard";
 import Button from "../../components/ui/Button";
 import { loadEnrollmentDraft, saveEnrollmentDraft } from "../../enrollment/enrollmentDraftStore";
+import { EnrollmentFooter } from "../../components/enrollment/EnrollmentFooter";
 import {
   PAYCHECKS_PER_YEAR,
   percentageToAnnualAmount,
@@ -230,6 +232,7 @@ export const Contribution = () => {
   };
 
   const canContinue = contributionPct > 0 && contributionPct <= 100;
+  const [showInvestmentWizard, setShowInvestmentWizard] = useState(false);
 
   const handleNext = useCallback(() => {
     if (!canContinue) return;
@@ -239,24 +242,19 @@ export const Contribution = () => {
         ...draft,
         contributionType: "percentage",
         contributionAmount: contributionPct,
+        sourceAllocation: state.sourceAllocation,
       });
     }
-    navigate("/enrollment/investments");
-  }, [canContinue, contributionPct, navigate]);
-
-  const handleSaveAndExit = useCallback(() => {
-    const draft = loadEnrollmentDraft();
-    if (draft) {
-      saveEnrollmentDraft({
-        ...draft,
-        contributionType: "percentage",
-        contributionAmount: contributionPct,
-      });
+    if (state.investmentProfileCompleted) {
+      navigate("/enrollment/investments");
+    } else {
+      setShowInvestmentWizard(true);
     }
-    navigate("/dashboard");
-  }, [contributionPct, navigate]);
+  }, [canContinue, contributionPct, state.sourceAllocation, state.investmentProfileCompleted, navigate]);
 
-  const handleCancel = useCallback(() => navigate("/enrollment/plans"), [navigate]);
+  const handleWizardComplete = useCallback(() => {
+    setShowInvestmentWizard(false);
+  }, []);
 
   const sourceTotal = state.sourceAllocation.preTax + state.sourceAllocation.roth + state.sourceAllocation.afterTax;
   const sliderPct = ((Math.min(SLIDER_MAX, Math.max(SLIDER_MIN, contributionPct)) - SLIDER_MIN) / (SLIDER_MAX - SLIDER_MIN)) * 100;
@@ -264,18 +262,17 @@ export const Contribution = () => {
   const [focusedInput, setFocusedInput] = useState<"pct" | "dollar" | null>(null);
   const monthlyAmount = annualAmount / 12;
   const inputsActive = focusedInput !== null;
+  const summaryText = `Monthly contribution: ${formatCurrency(derived.monthlyContribution ?? monthlyAmount)}`;
 
   return (
     <DashboardLayout header={<DashboardHeader />}>
       <div className="flex flex-col gap-6 w-full pb-24">
         <div className="mb-4">
-          <StepProgressIndicator
-            currentStep={2}
-            totalSteps={4}
-            stepLabel="Contribution"
-            title="Set Your Contribution Rate"
-            subtitle="Confirm your contribution rate and understand its impact on your retirement savings."
-          />
+          <EnrollmentStepper currentStep={1} />
+          <div className="choose-plan__header mt-4">
+            <h1 className="choose-plan__title">Set Your Contribution Rate</h1>
+            <p className="choose-plan__subtitle">Confirm your contribution rate and understand its impact on your retirement savings.</p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[58%_1fr] items-start">
@@ -324,9 +321,9 @@ export const Contribution = () => {
                   value={Math.min(SLIDER_MAX, Math.max(SLIDER_MIN, contributionPct))}
                   onChange={handleSliderChange}
                   aria-label="Contribution percentage"
-                  className="w-full h-3 rounded-full appearance-none bg-slate-200 dark:bg-slate-600 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-600 [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-blue-600 [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-lg [&::-moz-range-thumb]:cursor-pointer"
+                  className="w-full h-3 rounded-full appearance-none bg-transparent [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-600 [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:cursor-pointer dark:[&::-webkit-slider-thumb]:border-slate-900 [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-blue-600 [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-lg [&::-moz-range-thumb]:cursor-pointer dark:[&::-moz-range-thumb]:border-slate-900"
                   style={{
-                    background: `linear-gradient(to right, #2563eb 0%, #2563eb ${sliderPct}%, #e2e8f0 ${sliderPct}%, #e2e8f0 100%)`,
+                    background: `linear-gradient(to right, #2563eb 0%, #2563eb ${sliderPct}%, var(--slider-track-unfilled, #e2e8f0) ${sliderPct}%, var(--slider-track-unfilled, #e2e8f0) 100%)`,
                   } as React.CSSProperties}
                 />
               </div>
@@ -626,7 +623,7 @@ export const Contribution = () => {
                   <span className="text-xs font-medium uppercase tracking-wider text-sky-600 dark:text-sky-400">Per paycheck (bi-weekly)</span>
                   <p className="text-3xl font-bold text-sky-900 dark:text-sky-100">{formatCurrency(perPaycheck)}</p>
                 </div>
-                <p className="text-sm text-sky-800 dark:text-sky-200/90">
+                <p className="text-sm text-sky-800 dark:text-sky-100/90">
                   That&apos;s about {formatCurrency(monthlyAmount)} per month. A pre-tax deduction lowers your taxable income.
                 </p>
               </div>
@@ -720,7 +717,7 @@ export const Contribution = () => {
                   withAutoIncrease={projectionWithAuto?.dataPoints ?? null}
                 />
               </div>
-              <div className="flex gap-5 mt-3 text-sm">
+              <div className="flex gap-5 mt-3 text-sm text-slate-600 dark:text-slate-400">
                 <span className="flex items-center gap-2 before:content-[''] before:w-5 before:h-0.5 before:bg-blue-500 before:rounded">Contribution only</span>
                 <span className="flex items-center gap-2 before:content-[''] before:w-5 before:h-0 before:border-b-2 before:border-dashed before:border-sky-500 before:rounded">Contribution + Annual increase</span>
               </div>
@@ -731,34 +728,27 @@ export const Contribution = () => {
           </div>
         </div>
 
-        <footer className="fixed bottom-0 left-0 right-0 flex flex-wrap items-center justify-between gap-6 px-6 py-4 bg-white border-t border-slate-200 shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.08)] dark:bg-slate-800 dark:border-slate-700 dark:shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.4)]">
-          <div className="flex gap-3">
-            <Button onClick={handleCancel} className="rounded-lg bg-transparent px-5 py-2.5 text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-700" type="button">
-              Cancel
-            </Button>
-            <Button onClick={handleSaveAndExit} className="rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700" type="button">
-              Save & Exit
-            </Button>
-          </div>
-          <div className="flex gap-8 items-center">
-            <div className="flex flex-col gap-0.5">
-              <span className="text-xs text-slate-500 dark:text-slate-400">Monthly contribution</span>
-              <span className="text-base font-medium text-slate-700 dark:text-slate-300">{formatCurrency(monthlyContribution.employee)}</span>
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-xs text-slate-500 dark:text-slate-400">Total monthly investment</span>
-              <span className="text-lg font-semibold text-blue-600 dark:text-blue-400">{formatCurrency(monthlyContribution.total)}</span>
-            </div>
-          </div>
-          <Button
-            onClick={handleNext}
-            disabled={!canContinue}
-            className="min-w-[200px] rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg shadow-blue-600/25 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none dark:bg-blue-500 dark:hover:bg-blue-600"
-          >
-            Continue to Investments
-          </Button>
-        </footer>
+        <EnrollmentFooter
+          step={1}
+          primaryLabel="Continue to Investments"
+          primaryDisabled={!canContinue}
+          onPrimary={handleNext}
+          summaryText={summaryText}
+          getDraftSnapshot={() => ({
+            contributionType: "percentage",
+            contributionAmount: contributionPct,
+            sourceAllocation: state.sourceAllocation,
+          })}
+        />
       </div>
+
+      {showInvestmentWizard && (
+        <InvestmentProfileWizard
+          isOpen={showInvestmentWizard}
+          onClose={handleWizardComplete}
+          onComplete={handleWizardComplete}
+        />
+      )}
     </DashboardLayout>
   );
 };

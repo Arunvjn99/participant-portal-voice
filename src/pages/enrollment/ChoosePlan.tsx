@@ -3,15 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardHeader } from "../../components/dashboard/DashboardHeader";
 import { useEnrollment } from "../../enrollment/context/EnrollmentContext";
-import { StepProgressIndicator } from "../../components/enrollment/StepProgressIndicator";
+import { EnrollmentStepper } from "../../components/enrollment/EnrollmentStepper";
 import { PlanSelectionCard } from "../../components/enrollment/PlanSelectionCard";
 import { ProfileSummaryCard } from "../../components/enrollment/ProfileSummaryCard";
 import { RecommendationInsightCard } from "../../components/enrollment/RecommendationInsightCard";
 import Button from "../../components/ui/Button";
-import {
-  loadEnrollmentDraft,
-  saveEnrollmentDraft,
-} from "../../enrollment/enrollmentDraftStore";
+import { loadEnrollmentDraft, saveEnrollmentDraft } from "../../enrollment/enrollmentDraftStore";
+import { EnrollmentFooter } from "../../components/enrollment/EnrollmentFooter";
 import type { PlanRecommendation, PlanOption } from "../../types/enrollment";
 import type { SelectedPlanId } from "../../enrollment/context/EnrollmentContext";
 
@@ -97,17 +95,6 @@ export const ChoosePlan = () => {
     navigate("/enrollment/contribution");
   }, [selectedPlanId, navigate]);
 
-  const handleSaveAndExit = useCallback(() => {
-    const draft = loadEnrollmentDraft();
-    if (draft) {
-      saveEnrollmentDraft({ ...draft, selectedPlanId: selectedPlanId ?? null });
-    }
-    navigate("/dashboard");
-  }, [selectedPlanId, navigate]);
-
-  const handleCancel = useCallback(() => {
-    navigate("/dashboard");
-  }, [navigate]);
 
   const handleReadFullAnalysis = () => {
     // TODO: Handle read full analysis
@@ -117,13 +104,11 @@ export const ChoosePlan = () => {
     <DashboardLayout header={<DashboardHeader />}>
       <div className="choose-plan">
         <div className="choose-plan__progress">
-          <StepProgressIndicator
-            currentStep={1}
-            totalSteps={4}
-            stepLabel="Plan Selection"
-            title="Choose your plan"
-            subtitle="Based on your personalised information, we've recommended a plan that fits your needs. You have other eligible plans to choose from."
-          />
+          <EnrollmentStepper currentStep={0} />
+          <div className="choose-plan__header">
+            <h1 className="choose-plan__title">Choose your plan</h1>
+            <p className="choose-plan__subtitle">Based on your personalised information, we've recommended a plan that fits your needs. You have other eligible plans to choose from.</p>
+          </div>
         </div>
 
         <div className="choose-plan__content">
@@ -206,37 +191,13 @@ export const ChoosePlan = () => {
           </aside>
         </div>
 
-        <footer className="choose-plan__footer" role="contentinfo">
-          <div className="choose-plan__footer-inner">
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="choose-plan__footer-cancel"
-              aria-label="Cancel and return to dashboard"
-            >
-              Cancel
-            </button>
-            <div className="choose-plan__footer-actions">
-              <Button
-                type="button"
-                onClick={handleSaveAndExit}
-                className="choose-plan__footer-save"
-                aria-label="Save and exit to dashboard"
-              >
-                Save & Exit
-              </Button>
-              <Button
-                type="button"
-                onClick={handleContinue}
-                disabled={!selectedPlanId}
-                className="choose-plan__footer-continue"
-                aria-label="Continue to contribution"
-              >
-                Continue
-              </Button>
-            </div>
-          </div>
-        </footer>
+        <EnrollmentFooter
+          step={0}
+          primaryLabel="Continue to Contributions"
+          primaryDisabled={!selectedPlanId}
+          onPrimary={handleContinue}
+          getDraftSnapshot={() => ({ selectedPlanId: selectedPlanId ?? null })}
+        />
       </div>
     </DashboardLayout>
   );

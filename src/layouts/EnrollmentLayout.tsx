@@ -18,6 +18,9 @@ export const EnrollmentLayout = () => {
       initialSelectedPlan={draft?.selectedPlanId ?? undefined}
       initialContributionType={draft?.contributionType}
       initialContributionAmount={draft?.contributionAmount}
+      initialSourceAllocation={draft?.sourceAllocation}
+      initialInvestmentProfile={draft?.investmentProfile}
+      initialInvestmentProfileCompleted={draft?.investmentProfileCompleted}
     >
       <Outlet />
     </EnrollmentProvider>

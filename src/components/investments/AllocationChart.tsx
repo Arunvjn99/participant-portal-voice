@@ -3,12 +3,25 @@ import { getFundById } from "../../data/mockFunds";
 
 interface AllocationChartProps {
   allocations: Allocation[];
+  /** Center text (e.g. "TOTAL" or "Allocated") */
+  centerLabel?: string;
+  /** Center value (e.g. "100") - defaults to total % */
+  centerValue?: string;
+  /** Show "Valid Allocation" badge below chart */
+  showValidBadge?: boolean;
+  isValid?: boolean;
 }
 
 /**
  * AllocationChart - Donut/pie chart component showing allocation breakdown
  */
-export const AllocationChart = ({ allocations }: AllocationChartProps) => {
+export const AllocationChart = ({
+  allocations,
+  centerLabel = "Allocated",
+  centerValue,
+  showValidBadge = false,
+  isValid = true,
+}: AllocationChartProps) => {
   // Filter out zero allocations and sort by percentage
   const activeAllocations = allocations
     .filter((a) => a.percentage > 0)
@@ -31,7 +44,7 @@ export const AllocationChart = ({ allocations }: AllocationChartProps) => {
           </svg>
           <div className="allocation-chart__center">
             <span className="allocation-chart__center-value">0%</span>
-            <span className="allocation-chart__center-label">Allocated</span>
+            <span className="allocation-chart__center-label">{centerLabel}</span>
           </div>
         </div>
         <div className="allocation-chart__legend">
@@ -44,6 +57,7 @@ export const AllocationChart = ({ allocations }: AllocationChartProps) => {
   // Calculate angles for donut chart
   let currentAngle = -90; // Start at top
   const total = activeAllocations.reduce((sum, a) => sum + a.percentage, 0);
+  const displayValue = centerValue ?? total.toFixed(0);
 
   // Color palette for different funds
   const colors = [
@@ -108,10 +122,28 @@ export const AllocationChart = ({ allocations }: AllocationChartProps) => {
           })}
         </svg>
         <div className="allocation-chart__center">
-          <span className="allocation-chart__center-value">{total.toFixed(1)}%</span>
-          <span className="allocation-chart__center-label">Allocated</span>
+          <span className="allocation-chart__center-value">{displayValue}%</span>
+          <span className="allocation-chart__center-label">{centerLabel}</span>
         </div>
       </div>
+      {showValidBadge && (
+        <div
+          className={`allocation-chart__valid-badge ${
+            isValid ? "allocation-chart__valid-badge--valid" : "allocation-chart__valid-badge--invalid"
+          }`}
+        >
+          {isValid ? (
+            <>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Valid Allocation
+            </>
+          ) : (
+            "Invalid Allocation"
+          )}
+        </div>
+      )}
       <div className="allocation-chart__legend">
         {activeAllocations.map((allocation, index) => {
           const fund = getFundById(allocation.fundId);

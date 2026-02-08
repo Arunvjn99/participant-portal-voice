@@ -6,6 +6,7 @@ import type {
   ContributionAssumptions,
   AutoIncreaseSettings,
 } from "../logic/types";
+import type { InvestmentProfile } from "../types/investmentProfile";
 import { deriveContribution } from "../logic/contributionCalculator";
 
 // Normalized plan IDs - stable enum values
@@ -42,6 +43,10 @@ interface EnrollmentState {
   currentAge: number;
   retirementAge: number;
   currentBalance: number;
+
+  // AI Investment Profile (from wizard before Investments step)
+  investmentProfile: InvestmentProfile | null;
+  investmentProfileCompleted: boolean;
 }
 
 interface EnrollmentContextValue {
@@ -62,6 +67,8 @@ interface EnrollmentContextValue {
   setSourcesEditMode: (enabled: boolean) => void;
   setSourcesViewMode: (mode: "percent" | "dollar") => void;
   setAutoIncrease: (settings: AutoIncreaseSettings) => void;
+  setInvestmentProfile: (profile: InvestmentProfile) => void;
+  setInvestmentProfileCompleted: (completed: boolean) => void;
 
   // Derived values
   monthlyContribution: MonthlyContribution;
@@ -76,21 +83,29 @@ interface EnrollmentProviderProps {
   initialSalary?: number;
   initialContributionType?: ContributionType;
   initialContributionAmount?: number;
+  initialSourceAllocation?: { preTax: number; roth: number; afterTax: number };
   initialAge?: number;
   initialRetirementAge?: number;
   initialBalance?: number;
   initialSelectedPlan?: SelectedPlanId;
+  initialInvestmentProfile?: InvestmentProfile;
+  initialInvestmentProfileCompleted?: boolean;
 }
+
+const DEFAULT_SOURCE_ALLOCATION = { preTax: 100, roth: 0, afterTax: 0 };
 
 export const EnrollmentProvider = ({
   children,
   initialSalary = 0,
   initialContributionType = "percentage",
   initialContributionAmount = 0,
+  initialSourceAllocation,
   initialAge = 30,
   initialRetirementAge = 65,
   initialBalance = 0,
   initialSelectedPlan = null,
+  initialInvestmentProfile,
+  initialInvestmentProfileCompleted = false,
 }: EnrollmentProviderProps) => {
   const [state, setState] = useState<EnrollmentState>({
     selectedPlan: initialSelectedPlan,
@@ -101,7 +116,7 @@ export const EnrollmentProvider = ({
     contributionSource: ["preTax"],
     employerMatchEnabled: true,
     employerMatchIsCustom: false,
-    sourceAllocation: { preTax: 100, roth: 0, afterTax: 0 },
+    sourceAllocation: initialSourceAllocation ?? DEFAULT_SOURCE_ALLOCATION,
     sourcesEditMode: true,
     sourcesViewMode: "percent",
     autoIncrease: {
@@ -118,6 +133,8 @@ export const EnrollmentProvider = ({
     currentAge: initialAge,
     retirementAge: initialRetirementAge,
     currentBalance: initialBalance,
+    investmentProfile: initialInvestmentProfile ?? null,
+    investmentProfileCompleted: initialInvestmentProfileCompleted,
   });
 
   // Derived values - single source of truth per Figma spec
@@ -168,6 +185,9 @@ export const EnrollmentProvider = ({
     setSourcesEditMode: (enabled) => setState((prev) => ({ ...prev, sourcesEditMode: enabled })),
     setSourcesViewMode: (mode) => setState((prev) => ({ ...prev, sourcesViewMode: mode })),
     setAutoIncrease: (settings) => setState((prev) => ({ ...prev, autoIncrease: settings })),
+    setInvestmentProfile: (profile) => setState((prev) => ({ ...prev, investmentProfile: profile })),
+    setInvestmentProfileCompleted: (completed) =>
+      setState((prev) => ({ ...prev, investmentProfileCompleted: completed })),
     monthlyContribution,
     estimatedRetirementBalance,
     perPaycheck,
