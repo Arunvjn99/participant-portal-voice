@@ -14,7 +14,7 @@ const useEnrollmentSafe = () => {
 };
 
 /**
- * FloatingRetirementSearch - Bella AI Assistant
+ * FloatingRetirementSearch - Core AI Assistant
  * Matches Figma: Participants-Portal-Playground node 521-6037
  * Fixed position, appears on all screens. Dark theme, rounded panel.
  */
@@ -99,16 +99,16 @@ export const FloatingRetirementSearch = () => {
 
   return (
     <>
-      {/* Collapsed trigger - "Ask Bella" pill button (Figma 522-6066) */}
+      {/* Collapsed trigger - "Ask Core AI" pill button (Figma 522-6066) */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[10000]">
         <button
           type="button"
           onClick={() => setIsExpanded(!isExpanded)}
           className="floating-retirement-search-trigger flex items-center gap-2 rounded-full px-5 py-3 bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 text-white shadow-lg animate-bella-pulse hover:scale-105 hover:animate-none active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background dark:from-teal-500 dark:via-teal-600 dark:to-teal-700"
-          aria-label="Ask Bella - Retirement Assistant"
+          aria-label="Ask Core AI - Retirement Assistant"
           aria-expanded={isExpanded}
         >
-        {/* Bella avatar icon */}
+        {/* Core AI avatar icon */}
         <img
           src="/image/bella-icon.png"
           alt=""
@@ -117,7 +117,7 @@ export const FloatingRetirementSearch = () => {
           className="h-7 w-7 object-contain"
           aria-hidden
         />
-        <span className="font-semibold text-sm">Ask Bella</span>
+        <span className="font-semibold text-sm">Ask Core AI</span>
         </button>
       </div>
 
@@ -136,7 +136,7 @@ export const FloatingRetirementSearch = () => {
           ref={panelRef}
           className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100vw-2rem)] min-h-[100px] sm:w-[min(640px,calc(100vw-2rem))] sm:min-h-[107px] md:w-[min(768px,calc(100vw-2rem))] md:min-h-[120px] lg:w-[min(1024px,calc(100vw-2rem))] lg:min-h-[160px] xl:w-[1168px] xl:min-h-[183px] max-w-[calc(100vw-2rem)] rounded-2xl bg-[#1B2232] dark:bg-slate-900 border border-slate-600/80 dark:border-slate-700/80 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden"
           role="dialog"
-          aria-label="Bella - AI Assistant"
+          aria-label="Core AI - AI Assistant"
         >
           {/* Header - Figma: AI Assistant Online */}
           <div className="p-4 pb-2">
@@ -179,7 +179,7 @@ export const FloatingRetirementSearch = () => {
                 }}
                 placeholder="Explain retirement plans to me..."
                 className="flex-1 bg-transparent px-4 py-3 text-white placeholder-slate-500 text-sm outline-none min-w-0"
-                aria-label="Ask Bella"
+                aria-label="Ask Core AI"
               />
               <button
                 type="submit"

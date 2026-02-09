@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Allocation } from "../../types/investment";
 import { getFundById } from "../../data/mockFunds";
 
@@ -22,6 +23,25 @@ export const AllocationChart = ({
   showValidBadge = false,
   isValid = true,
 }: AllocationChartProps) => {
+  const [tooltip, setTooltip] = useState<{ fundName: string; percentage: number; x: number; y: number } | null>(null);
+
+  const handleSegmentMouseEnter = (
+    e: React.MouseEvent<SVGPathElement>,
+    fundName: string,
+    percentage: number
+  ) => {
+    const container = e.currentTarget.closest(".allocation-chart__container");
+    if (container) {
+      const rect = (container as HTMLElement).getBoundingClientRect();
+      setTooltip({
+        fundName,
+        percentage,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
+  };
+
   // Filter out zero allocations and sort by percentage
   const activeAllocations = allocations
     .filter((a) => a.percentage > 0)
@@ -74,7 +94,7 @@ export const AllocationChart = ({
   ];
 
   return (
-    <div className="allocation-chart">
+    <div className="allocation-chart relative">
       <div className="allocation-chart__container">
         <svg viewBox="0 0 200 200" className="allocation-chart__svg">
           <circle
@@ -115,8 +135,16 @@ export const AllocationChart = ({
                 fill="none"
                 stroke={color}
                 strokeWidth="40"
-                className="allocation-chart__segment"
+                className="allocation-chart__segment cursor-pointer"
                 data-fund-id={allocation.fundId}
+                onMouseEnter={(e) =>
+                  handleSegmentMouseEnter(
+                    e,
+                    fund.name,
+                    (allocation.percentage / total) * 100
+                  )
+                }
+                onMouseLeave={() => setTooltip(null)}
               />
             );
           })}
@@ -125,6 +153,19 @@ export const AllocationChart = ({
           <span className="allocation-chart__center-value">{displayValue}%</span>
           <span className="allocation-chart__center-label">{centerLabel}</span>
         </div>
+        {tooltip && (
+          <div
+            className="pointer-events-none absolute z-10 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-lg dark:border-slate-600 dark:bg-slate-800 dark:shadow-black/50"
+            style={{
+              left: tooltip.x + 12,
+              top: tooltip.y + 12,
+              transform: "translate(0, -50%)",
+            }}
+          >
+            <div className="font-medium text-slate-900 dark:text-slate-100">{tooltip.fundName}</div>
+            <div className="text-blue-600 dark:text-blue-400">{tooltip.percentage.toFixed(1)}%</div>
+          </div>
+        )}
       </div>
       {showValidBadge && (
         <div

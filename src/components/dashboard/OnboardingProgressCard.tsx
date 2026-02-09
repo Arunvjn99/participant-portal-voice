@@ -34,7 +34,7 @@ export const OnboardingProgressCard = ({
         </svg>
       </span>
       <span className="ped-onboarding__badges-text">
-        Reward Badges {badgesCompleted}/{badgesTotal} Completed
+        Reward Badges - Step {badgesCompleted} Completed!
       </span>
     </div>
     <p className="ped-onboarding__message">{message}</p>

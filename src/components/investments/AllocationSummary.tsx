@@ -113,8 +113,11 @@ export const AllocationSummary = ({ variant = "dashboard" }: AllocationSummaryPr
         <div className="advisor-help-card">
           <div className="advisor-help-card__icon">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+              <rect x="4" y="6" width="16" height="14" rx="2" />
+              <path d="M12 2v2M8 4h2M14 4h2" />
+              <circle cx="9" cy="13" r="1.5" fill="currentColor" stroke="none" />
+              <circle cx="15" cy="13" r="1.5" fill="currentColor" stroke="none" />
+              <path d="M8 17h8" />
             </svg>
           </div>
           <h4 className="advisor-help-card__title">Need help choosing investments?</h4>

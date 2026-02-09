@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { FloatingRetirementSearch } from "../components/ai/FloatingRetirementSearch";
 
-const HIDE_BELLA_PATHS = ["/", "/voice"];
+const HIDE_CORE_AI_PATHS = ["/", "/voice"];
 
 /**
  * Root layout - wraps all routes. Renders Outlet + global floating components.
@@ -9,12 +9,12 @@ const HIDE_BELLA_PATHS = ["/", "/voice"];
  */
 export const RootLayout = () => {
   const { pathname } = useLocation();
-  const showBella = !HIDE_BELLA_PATHS.includes(pathname);
+  const showCoreAI = !HIDE_CORE_AI_PATHS.includes(pathname);
 
   return (
     <>
       <Outlet />
-      {showBella && <FloatingRetirementSearch />}
+      {showCoreAI && <FloatingRetirementSearch />}
     </>
   );
 };

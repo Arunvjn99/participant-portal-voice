@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { BellaScreen } from "../../bella";
 
 /**
- * Route wrapper for Bella - provides onClose that navigates back to previous route.
+ * Route wrapper for Core AI - provides onClose that navigates back to previous route.
  * When user clicks mic in header, they navigate to /voice with state.from;
  * onClose navigates back to that route or /dashboard.
  */

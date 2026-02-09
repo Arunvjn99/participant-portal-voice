@@ -1,5 +1,5 @@
 /**
- * Bella - Voice assistant screen (from participant portal)
+ * Core AI - Voice assistant screen (from participant portal)
  *
  * Usage:
  *   import BellaScreen from './bella';

@@ -13,6 +13,7 @@ export interface PlanDetails {
   totalBalance: number;
   ytdReturn: number;
   employerMatchPct: number;
+  employerMatchCap?: number;
   planFitPct?: number;
   contributionRate: number;
 }
@@ -61,6 +62,7 @@ export interface LearningResource {
 }
 
 export interface Balances {
+  vestedBalance: number;
   rolloverEligible: number;
   availableCash: number;
   restricted: number;
@@ -81,7 +83,7 @@ export interface EnrollmentSummary {
   rateOfReturn: {
     confidencePct: number;
     message: string;
-    timeRange: "5Y" | "1Y" | "3M";
+    timeRange: "5Y" | "1Y" | "6M";
   } | null;
   onboardingProgress: {
     percentComplete: number;
@@ -99,14 +101,16 @@ export const MOCK_ENROLLMENT_SUMMARY: EnrollmentSummary = {
     planId: "plan-1",
     planName: "TechVantage 401(k) Retirement Plan",
     planType: "401(k)",
-    enrolledAt: "2035-05-15",
+    enrolledAt: "2018-05-15",
     totalBalance: 234992,
     ytdReturn: 12.4,
-    employerMatchPct: 92,
+    employerMatchPct: 100,
+    employerMatchCap: 6,
     planFitPct: 90,
-    contributionRate: 12,
+    contributionRate: 9,
   },
   balances: {
+    vestedBalance: 207992,
     rolloverEligible: 207992,
     availableCash: -187192.8,
     restricted: 27000,
@@ -118,10 +122,10 @@ export const MOCK_ENROLLMENT_SUMMARY: EnrollmentSummary = {
     total: 12,
   },
   investmentAllocations: [
-    { fundId: "fund-1", fundName: "Vanguard 500 Index Fund", ticker: "VINIX", balance: 98500, allocationPct: 42, returnPct: 14.2 },
-    { fundId: "fund-2", fundName: "Fidelity Total Market Index", ticker: "FSMKX", balance: 62000, allocationPct: 26, returnPct: 13.8 },
-    { fundId: "fund-5", fundName: "International Growth Fund", ticker: "RERGX", balance: 38000, allocationPct: 16, returnPct: -2.1 },
-    { fundId: "fund-7", fundName: "Bond Market Index Fund", ticker: "VBTLX", balance: 36492, allocationPct: 16, returnPct: 3.2 },
+    { fundId: "fund-1", fundName: "Vanguard 500 Index Fund", ticker: "VTIAX", balance: 112500, allocationPct: 48, returnPct: 14.2 },
+    { fundId: "fund-2", fundName: "Fidelity Total Market", ticker: "FTMIX", balance: 58000, allocationPct: 24, returnPct: 11.8 },
+    { fundId: "fund-5", fundName: "International Growth Fund", ticker: "IGFRX", balance: 35000, allocationPct: 15, returnPct: -2.4 },
+    { fundId: "fund-7", fundName: "Bond Market Index", ticker: "VBTLX", balance: 29492, allocationPct: 13, returnPct: 3.1 },
   ],
   goalProgress: {
     percentOnTrack: 90,
@@ -137,11 +141,11 @@ export const MOCK_ENROLLMENT_SUMMARY: EnrollmentSummary = {
     actionRoute: "/enrollment/contribution",
   },
   transactions: [
-    { id: "t1", type: "loan-repayment", description: "Loan Repayment", date: "2025-01-15", amount: -500, account: "Traditional 401K" },
-    { id: "t2", type: "dividend", description: "Dividend Credit", date: "2025-01-10", amount: 127.5, account: "Traditional 401K" },
-    { id: "t3", type: "employer-match", description: "Employer Match", date: "2025-01-10", amount: 450, account: "Traditional 401K" },
+    { id: "t1", type: "loan-repayment", description: "Loan Repayment", date: "2025-01-15", amount: -500, account: "Traditional 401(k)" },
+    { id: "t2", type: "dividend", description: "Dividend Credit", date: "2025-01-12", amount: 127.5, account: "Roth 401(k)" },
+    { id: "t3", type: "employer-match", description: "Employer Match", date: "2025-01-10", amount: 450, account: "Traditional 401(k)" },
     { id: "t4", type: "fee", description: "Fee", date: "2025-01-08", amount: -15, account: "Account Management" },
-    { id: "t5", type: "contribution", description: "Contribution", date: "2025-01-05", amount: 900, account: "Traditional 401K" },
+    { id: "t5", type: "contribution", description: "Contribution", date: "2025-01-05", amount: 900, account: "Traditional 401(k)" },
   ],
   rateOfReturn: {
     confidencePct: 85,

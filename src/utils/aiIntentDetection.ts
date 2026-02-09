@@ -49,7 +49,7 @@ export interface UserContext {
 /**
  * Detect user intent from query
  */
-/** Suggestion queries from Bella search bar - same intent when typed or clicked */
+/** Suggestion queries from Core AI search bar - same intent when typed or clicked */
 const SUGGESTION_MATCHES: { pattern: RegExp | string; intent: UserIntent }[] = [
   {
     pattern: /explain\s+retirement\s+plan/i,

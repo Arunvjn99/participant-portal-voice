@@ -1,5 +1,5 @@
 /**
- * Bella search — mock responses for common retirement-related queries.
+ * Core AI search — mock responses for common retirement-related queries.
  * Keyword matching for fallback when intent detection returns unknown.
  */
 
@@ -82,7 +82,7 @@ export const BELLA_MOCK_RESPONSES: { keywords: string[]; response: MockResponse 
     keywords: ["hello", "hi", "hey"],
     response: {
       answer:
-        "Hi! I'm Bella, your retirement assistant. Ask me about contributions, investments, your balance, or how to get started.",
+        "Hi! I'm Core AI, your retirement assistant. Ask me about contributions, investments, your balance, or how to get started.",
       primaryAction: { label: "Try Voice Mode", route: "/voice" },
     },
   },

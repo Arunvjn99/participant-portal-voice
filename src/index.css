@@ -13334,10 +13334,11 @@ button {
 }
 
 .ped-transactions__icon--yellow { background: #fef3c7; }
-.ped-transactions__icon--green { background: #d1fae5; }
-.ped-transactions__icon--blue { background: #dbeafe; }
-.ped-transactions__icon--red { background: #fee2e2; }
-.ped-transactions__icon--purple { background: #ede9fe; }
+.ped-transactions__icon--orange { background: #f97316; }
+.ped-transactions__icon--green { background: #22c55e; }
+.ped-transactions__icon--blue { background: #2563eb; }
+.ped-transactions__icon--red { background: #ef4444; }
+.ped-transactions__icon--purple { background: #7c3aed; }
 
 .ped-transactions__info {
   display: flex;
