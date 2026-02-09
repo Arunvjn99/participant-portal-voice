@@ -35,77 +35,87 @@ export const PlanDefaultPortfolioCard = ({
 }: PlanDefaultPortfolioCardProps) => {
   return (
     <DashboardCard>
-      <div className="plan-default-portfolio">
-        <div className="plan-default-portfolio__header">
-          <div className="plan-default-portfolio__icon">
+      <div className="flex flex-col gap-4">
+        {/* Header: icon | title block | filter - per Figma 293-777 */}
+        <div className="flex items-start gap-3">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-blue-500 text-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="2" y="2" width="8" height="8" rx="1" fill="currentColor" />
-              <rect x="14" y="2" width="8" height="8" rx="1" fill="currentColor" />
-              <rect x="2" y="14" width="8" height="8" rx="1" fill="currentColor" />
-              <rect x="14" y="14" width="8" height="8" rx="1" fill="currentColor" />
+              <rect x="4" y="4" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="14" y="4" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="4" y="14" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="14" y="14" width="6" height="6" rx="1" fill="currentColor" />
             </svg>
           </div>
-          <div className="plan-default-portfolio__title-row">
-            <h3 className="plan-default-portfolio__title">Plan Default Portfolio</h3>
-            <span className="plan-default-portfolio__badge">MODERATE INVESTOR</span>
-            <span className="plan-default-portfolio__confidence">88% confidence</span>
+          <div className="min-w-0 flex-1">
+            <h3 className="m-0 text-xl font-semibold text-foreground">Plan Default Portfolio</h3>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <span className="rounded-md bg-green-600 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-white dark:bg-green-500">
+                MODERATE INVESTOR
+              </span>
+              <span className="text-sm text-muted-foreground">88% confidence</span>
+            </div>
           </div>
           <button
             type="button"
-            className="plan-default-portfolio__filter-btn"
+            className="rounded p-1.5 text-muted-foreground transition-colors hover:bg-slate-100 hover:text-foreground dark:hover:bg-slate-800 dark:hover:text-foreground"
             aria-label="Filter options"
           >
             <FilterIcon />
           </button>
         </div>
-        <div className="plan-default-portfolio__banner">
-          <svg className="plan-default-portfolio__banner-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="2" />
-            <path d="M10 7v4M10 13h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-          <p className="plan-default-portfolio__banner-text">
-            Your balanced approach to risk and return indicates a moderate portfolio is ideal. A 60% stocks / 40% bonds allocation provides potential while maintaining stability, suitable for most investors with 10+ year horizons.
+
+        {/* Info banner - light blue bg, info icon, dark blue text per Figma */}
+        <div className="flex gap-3 rounded-lg bg-blue-50 p-4 dark:bg-blue-950/30">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-blue-500 bg-blue-500 text-white dark:border-blue-400 dark:bg-blue-600">
+            <span className="text-sm font-bold">i</span>
+          </div>
+          <p className="m-0 text-[0.9375em] leading-relaxed text-blue-900 dark:text-blue-100">
+            Your balanced approach to risk and return indicates a moderate portfolio is ideal. A 60% stocks / 40% bonds allocation provides growth potential while maintaining stability, suitable for most investors with 10+ year horizons.
           </p>
         </div>
-        <div className="plan-default-portfolio__metrics">
-          <div className="plan-default-portfolio__metric">
-            <span className="plan-default-portfolio__metric-label">EXPECTED RETURN</span>
-            <span className="plan-default-portfolio__metric-value plan-default-portfolio__metric-value--green">6-8%</span>
+        {/* Metrics row */}
+        <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col gap-0.5">
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">EXPECTED RETURN</span>
+            <span className="font-semibold text-green-600 dark:text-green-400">6-8%</span>
           </div>
-          <div className="plan-default-portfolio__metric">
-            <span className="plan-default-portfolio__metric-label">VOLATILITY RANGE</span>
-            <span className="plan-default-portfolio__metric-value">Moderate (10-15%)</span>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">VOLATILITY RANGE</span>
+            <span className="font-semibold text-foreground">Moderate (10-15%)</span>
           </div>
-          <div className="plan-default-portfolio__metric">
-            <span className="plan-default-portfolio__metric-label">RISK LEVEL</span>
-            <span className="plan-default-portfolio__metric-value plan-default-portfolio__metric-value--pill">Medium</span>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">RISK LEVEL</span>
+            <span className="inline-block w-fit rounded-full bg-green-600 px-2.5 py-0.5 text-sm font-semibold text-white dark:bg-green-500">
+              Medium
+            </span>
           </div>
         </div>
 
         {onEditToggleChange && (
-          <div className="plan-default-portfolio__edit-toggle">
-            <span className="plan-default-portfolio__edit-toggle-icon" aria-hidden="true">
-              <LockIcon />
-            </span>
-            <label className="plan-default-portfolio__edit-toggle-label">
-              <span className="plan-default-portfolio__edit-toggle-text">Allow me to edit allocation</span>
-              <div className="plan-default-portfolio__edit-toggle-switch-wrapper">
-                <input
-                  type="checkbox"
-                  checked={editAllocationEnabled}
-                  onChange={(e) => onEditToggleChange(e.target.checked)}
-                  className="plan-default-portfolio__edit-toggle-input"
-                  role="switch"
-                />
-                <span className="plan-default-portfolio__edit-toggle-switch" />
-              </div>
-            </label>
-          </div>
-        )}
-        {onEditToggleChange && (
-          <p className="plan-default-portfolio__edit-toggle-hint">
-            Enable to customize recommended allocations and add investments
-          </p>
+          <>
+            <div className="flex items-center gap-3">
+              <span className="text-muted-foreground" aria-hidden="true">
+                <LockIcon />
+              </span>
+              <label className="flex flex-1 cursor-pointer items-center justify-between gap-4">
+                <span className="font-semibold text-foreground">Allow me to edit allocation</span>
+                <div className="relative h-6 w-12 shrink-0">
+                  <input
+                    type="checkbox"
+                    checked={editAllocationEnabled}
+                    onChange={(e) => onEditToggleChange(e.target.checked)}
+                    className="peer sr-only"
+                    role="switch"
+                  />
+                  <span className="absolute inset-0 rounded-full bg-slate-200 transition-colors peer-checked:bg-blue-500 dark:bg-slate-600 peer-checked:dark:bg-blue-600" />
+                  <span className="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform peer-checked:translate-x-6 dark:bg-slate-100" />
+                </div>
+              </label>
+            </div>
+            <p className="m-0 text-sm text-muted-foreground">
+              Enable to customize recommended allocations and add investments
+            </p>
+          </>
         )}
       </div>
     </DashboardCard>

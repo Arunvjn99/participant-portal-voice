@@ -7,6 +7,15 @@ export default {
   darkMode: "class",
   theme: {
     extend: {
+      keyframes: {
+        "bella-pulse": {
+          "0%, 100%": { transform: "scale(1)", boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)" },
+          "50%": { transform: "scale(1.03)", boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.1)" },
+        },
+      },
+      animation: {
+        "bella-pulse": "bella-pulse 2.5s ease-in-out infinite",
+      },
       colors: {
         background: "var(--color-background)",
         "background-secondary": "var(--color-background-secondary)",

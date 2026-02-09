@@ -73,6 +73,12 @@
   color: var(--color-text-secondary);
 }
 
+/* Plan selection card - Best Fit (recommended) benefit chips */
+.dark .plan-selection-card--recommended .plan-selection-card__benefit-chip {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
 .dark .plan-selection-card__badge-hint {
   color: #34d399;
 }
@@ -584,89 +590,4 @@
 }
 
 /* ========== Review Page (Step 4/4) ========== */
-.dark .review-page__title {
-  color: var(--color-text);
-}
-
-.dark .review-page__description {
-  color: var(--color-text-secondary);
-}
-
-.dark .review-page__goal-simulator-card {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-}
-
-.dark .review-page__contribution-card {
-  background-color: var(--color-background-secondary);
-  border-color: var(--color-border);
-}
-
-.dark .review-page__contribution-value {
-  color: var(--color-text);
-}
-
-.dark .review-page__contribution-label {
-  color: var(--color-text-secondary);
-}
-
-.dark .review-page__allocation-error-banner {
-  background-color: rgba(239, 68, 68, 0.15);
-  border-color: #f87171;
-  color: #f87171;
-}
-
-.dark .review-page__investments-total--invalid {
-  color: #f87171;
-}
-
-.dark .review-page__allocation-status--invalid {
-  color: #f87171;
-}
-
-.dark .review-page__allocation-metric-label {
-  color: var(--color-text-secondary);
-}
-
-.dark .review-page__allocation-metric-value {
-  color: var(--color-text);
-}
-
-.dark .review-page__risk-slider-track {
-  background: var(--color-border);
-}
-
-.dark .review-page__risk-slider-label {
-  color: var(--color-text-secondary);
-}
-
-.dark .review-page__document-item {
-  border-color: var(--color-border);
-  background-color: var(--color-background-secondary);
-}
-
-.dark .review-page__plan-risk-pill {
-  background-color: var(--color-background-tertiary);
-  color: var(--color-text);
-}
-
-.dark .review-page__edit-link,
-.dark .review-page__edit-elections-link {
-  color: var(--color-primary);
-}
-
-.dark .review-page__edit-elections-link--error {
-  color: #f87171;
-}
-
-.dark .review-page__auto-rebalance-slider {
-  background-color: var(--color-border);
-}
-
-.dark .review-page__documents-required-count {
-  color: #f87171;
-}
-
-.dark .review-page__apply-suggestion-btn {
-  background-color: var(--color-primary) !important;
-  color: white !important;
-}
+/* Dark mode now handled via Tailwind dark: variants in Review.tsx */

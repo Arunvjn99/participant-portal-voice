@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { branding } from "../../config/branding";
 import ThemeToggle from "@/components/ui/ThemeToggle";
@@ -7,6 +7,24 @@ export const DashboardHeader = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+    if (userMenuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [userMenuOpen]);
+
+  const handleLogout = () => {
+    setUserMenuOpen(false);
+    setMobileMenuOpen(false);
+    navigate("/");
+  };
 
   const isActive = (to: string) => {
     if (to === "#") return false;
@@ -80,7 +98,45 @@ export const DashboardHeader = () => {
             🎤
           </ActionButton>
           <ActionButton aria-label="Notifications">🔔</ActionButton>
-          <ActionButton aria-label="Profile">👤</ActionButton>
+
+          {/* User menu */}
+          <div className="relative" ref={userMenuRef}>
+            <button
+              type="button"
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 lg:h-10 lg:w-10"
+              aria-label="User menu"
+              aria-expanded={userMenuOpen}
+              aria-haspopup="true"
+              onClick={() => setUserMenuOpen((o) => !o)}
+            >
+              <span className="w-5 h-5 lg:w-6 lg:h-6 flex items-center justify-center text-lg" aria-hidden>
+                👤
+              </span>
+            </button>
+            {userMenuOpen && (
+              <div
+                className="absolute right-0 top-full mt-1 z-50 min-w-[160px] rounded-lg border border-slate-200 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-800"
+                role="menu"
+              >
+                <Link
+                  to="/profile"
+                  className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  role="menuitem"
+                  onClick={() => setUserMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+                <button
+                  type="button"
+                  className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700"
+                  role="menuitem"
+                  onClick={handleLogout}
+                >
+                  Log out
+                </button>
+              </div>
+            )}
+          </div>
 
           {/* Mobile menu toggle */}
           <button
@@ -116,6 +172,15 @@ export const DashboardHeader = () => {
                 </Link>
               </li>
             ))}
+            <li>
+              <button
+                type="button"
+                className="block w-full px-3 py-2 sm:px-4 text-left text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800 rounded-md"
+                onClick={handleLogout}
+              >
+                Log out
+              </button>
+            </li>
           </ul>
         </div>
       )}
