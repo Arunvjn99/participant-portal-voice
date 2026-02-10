@@ -1312,6 +1312,52 @@ button {
   margin-bottom: var(--spacing-4);
 }
 
+/* Custom stepper (replaces MUI) - horizontal, thin line, small circles */
+.custom-stepper {
+  width: 100%;
+  padding: 16px 0;
+}
+
+.custom-stepper__track {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.custom-stepper__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.custom-stepper__node {
+  box-sizing: border-box;
+}
+
+.custom-stepper__label {
+  max-width: 72px;
+  line-height: 1.2;
+  word-wrap: break-word;
+}
+
+.custom-stepper__connector {
+  align-self: flex-start;
+  margin-top: 11px;
+  flex-shrink: 1;
+}
+
+@media (max-width: 640px) {
+  .custom-stepper__label {
+    max-width: 56px;
+    font-size: 0.6875rem;
+  }
+}
+
 /* choose-plan__progress uses enrollment-stepper-section for spacing */
 
 /* Future Contributions (Auto Increase) — Figma 551-722 */

@@ -258,7 +258,7 @@ export const Review = () => {
       <div className="flex min-w-0 flex-col gap-6 w-full pb-[100px]">
         <div className="enrollment-stepper-section review-page__stepper w-full">
           <EnrollmentStepper
-            currentStep={3}
+            currentStep={4}
             title="Review Your Enrollment"
             subtitle="Please review your selections before confirming enrollment."
           />
@@ -619,14 +619,10 @@ export const Review = () => {
               <label className="flex items-center gap-3 p-3 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800">
                 <input type="checkbox" checked={acknowledgements.feeDisclosure} onChange={(e) => setAcknowledgements((p) => ({ ...p, feeDisclosure: e.target.checked }))} />
                 <span className="flex-1">Fee Disclosure Statement</span>
-                <span className="text-xs text-blue-600 dark:text-blue-400">Required</span>
-                <span className="text-slate-400 dark:text-slate-500">→</span>
               </label>
               <label className="flex items-center gap-3 p-3 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800">
                 <input type="checkbox" checked={acknowledgements.qdefault} onChange={(e) => setAcknowledgements((p) => ({ ...p, qdefault: e.target.checked }))} />
                 <span className="flex-1">Qualified Default Investment Notice</span>
-                <span className="text-xs text-blue-600 dark:text-blue-400">Required</span>
-                <span className="text-slate-400 dark:text-slate-500">→</span>
               </label>
             </div>
           </DashboardCard>
