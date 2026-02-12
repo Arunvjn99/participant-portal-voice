@@ -5,6 +5,7 @@ import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { ForgotPasswordVerify } from "../pages/auth/ForgotPasswordVerify";
 import { ResetPassword } from "../pages/auth/ResetPassword";
 import { HelpCenter } from "../pages/auth/HelpCenter";
+import { PreEnrollment } from "../pages/dashboard/PreEnrollment";
 import { Dashboard } from "../pages/dashboard/Dashboard";
 import { PostEnrollmentDashboard } from "../pages/dashboard/PostEnrollmentDashboard";
 import { Profile } from "../pages/profile/Profile";
@@ -17,6 +18,7 @@ import { FutureContributions } from "../pages/enrollment/FutureContributions";
 import { TransactionsHub } from "../pages/transactions/TransactionsHub";
 import { TransactionAnalysis } from "../pages/transactions/TransactionAnalysis";
 import { TransactionApplicationRouter } from "../pages/transactions/applications/TransactionApplicationRouter";
+import { LoanFlow } from "../pages/transactions/applications/LoanFlow";
 import { EnrollmentLayout } from "../layouts/EnrollmentLayout";
 import { InvestmentProvider } from "../context/InvestmentContext";
 import InvestmentsLayout from "../app/investments/layout";
@@ -61,6 +63,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
+        element: <PreEnrollment />,
+      },
+      {
+        path: "/dashboard/classic",
         element: <Dashboard />,
       },
       {
@@ -116,6 +122,10 @@ export const router = createBrowserRouter([
       {
         path: "/transactions",
         element: <TransactionsHub />,
+      },
+      {
+        path: "/transactions/loan/:transactionId",
+        element: <LoanFlow />,
       },
       {
         path: "/transactions/:transactionType/start",

@@ -52,6 +52,48 @@ button {
   color: inherit;
 }
 
+/* Pre-enrollment (Future Activation Hub) */
+.glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+}
+
+.dark .glass-card {
+  background: rgba(30, 41, 59, 0.75);
+  border-color: rgba(51, 65, 85, 0.8);
+}
+
+/* Hero background depth – radial + mesh, subtle */
+.pre-enrollment-hero-bg {
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 80% at 20% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+}
+
+.dark .pre-enrollment-hero-bg {
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 80% at 20% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(15, 23, 42, 0.4) 0%, transparent 70%);
+}
+
+/* Optional very subtle noise overlay */
+.pre-enrollment-hero-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark .pre-enrollment-hero-noise::after {
+  opacity: 0.05;
+}
+
 /* Button Styles */
 .button {
   display: inline-flex;
@@ -796,6 +838,66 @@ button {
   outline: none;
 }
 
+/* Personalize plan wizard slider (Figma step 2, node 688:715) */
+.personalize-plan-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  accent-color: #2563eb;
+  width: 100%;
+  min-width: 0;
+  height: 7px;
+  margin: 0;
+  padding: 0;
+  border-radius: 7px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.personalize-plan-slider:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.personalize-plan-slider::-webkit-slider-runnable-track {
+  height: 7px;
+  border-radius: 7px;
+  background: #e5e7eb;
+}
+
+.personalize-plan-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -6.5px;
+  border: 0;
+  border-radius: 9999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.personalize-plan-slider::-moz-range-track {
+  height: 7px;
+  border-radius: 7px;
+  border: 0;
+  background: #e5e7eb;
+}
+
+.personalize-plan-slider::-moz-range-progress {
+  height: 7px;
+  border-radius: 7px;
+  background: #e5e7eb;
+}
+
+.personalize-plan-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 9999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
 /* Wizard Styles */
 .wizard {
   display: flex;
@@ -1312,6 +1414,80 @@ button {
   margin-bottom: var(--spacing-4);
 }
 
+/* Header-attached stepper (DealShip-style): inline labels, thin connectors, flat */
+.header-stepper {
+  width: 100%;
+  padding: var(--spacing-3) 0;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-stepper__track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  gap: 0;
+}
+
+.header-stepper__step {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-shrink: 0;
+}
+
+.header-stepper__node {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-stepper__node-num {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.header-stepper__label {
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+.header-stepper__connector {
+  width: 24px;
+  min-width: 24px;
+  max-width: 48px;
+  flex: 1;
+  height: 2px;
+  flex-shrink: 1;
+}
+
+.header-stepper__compact {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 900px) {
+  .header-stepper__label {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-stepper {
+    padding: var(--spacing-2) 0;
+  }
+}
+
 /* Custom stepper (replaces MUI) - horizontal, thin line, small circles */
 .custom-stepper {
   width: 100%;
@@ -1348,7 +1524,24 @@ button {
 .custom-stepper__connector {
   align-self: flex-start;
   margin-top: 11px;
-  flex-shrink: 1;
+  flex: 1 1 0;
+  min-width: 8px;
+  max-width: 40px;
+  height: 2px;
+}
+
+.custom-stepper__connector--completed {
+  background-color: #2563eb;
+}
+
+.custom-stepper__connector--upcoming {
+  background: repeating-linear-gradient(
+    to right,
+    #e0e0e0 0,
+    #e0e0e0 4px,
+    transparent 4px,
+    transparent 8px
+  );
 }
 
 @media (max-width: 640px) {
@@ -2386,6 +2579,7 @@ button {
   padding: 6px 14px;
   background-color: #f1f5f9;
   color: var(--color-text);
+  border: 1px solid #e5e7eb;
   border-radius: 9999px;
   font-size: 0.8125rem;
   line-height: 1.4;
@@ -2395,6 +2589,18 @@ button {
 .plan-selection-card--standard .plan-selection-card__benefit-chip {
   background-color: #f1f5f9;
   color: var(--color-text-secondary);
+}
+
+.dark .plan-selection-card__benefit-chip {
+  background-color: #334155;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+.dark .plan-selection-card--standard .plan-selection-card__benefit-chip {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
 }
 
 .plan-selection-card__button {
@@ -3738,18 +3944,23 @@ button {
   min-width: 160px;
   padding: 10px 24px;
   background-color: var(--color-primary);
-  color: var(--color-text-inverse);
+  color: var(--color-text-on-primary);
   border: none;
   font-size: 0.9375em;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.15s, box-shadow 0.15s;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .enrollment-footer__primary:hover:not(:disabled) {
   background-color: var(--color-primary-hover);
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.enrollment-footer__primary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .enrollment-footer__primary:disabled {
@@ -8931,6 +9142,319 @@ button {
   color: #22c55e;
 }
 
+/* FundAllocationSection — single container (Figma 293-840), shared layout */
+.fund-allocation-section {
+  width: 100%;
+  min-width: 0;
+}
+
+.fund-allocation-section__title {
+  font-size: 1em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.fund-allocation-section__container {
+  width: 100%;
+  min-width: 0;
+  padding: var(--spacing-5);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.fund-allocation-section__toggle {
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--spacing-4);
+}
+
+.fund-allocation-section__toggle-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.fund-allocation-section__toggle-icon {
+  color: var(--color-text-secondary);
+  display: flex;
+}
+
+.fund-allocation-section__toggle-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  cursor: pointer;
+}
+
+.fund-allocation-section__toggle-text {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.fund-allocation-section__toggle-switch {
+  position: relative;
+  height: 1.5rem;
+  width: 3rem;
+  flex-shrink: 0;
+}
+
+.fund-allocation-section__toggle-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.fund-allocation-section__toggle-switch:has(.fund-allocation-section__toggle-input:checked) .fund-allocation-section__toggle-track {
+  background: var(--color-primary, #2563eb);
+}
+
+.fund-allocation-section__toggle-switch:has(.fund-allocation-section__toggle-input:checked) .fund-allocation-section__toggle-thumb {
+  transform: translateX(1.5rem);
+}
+
+.fund-allocation-section__toggle-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--color-border, #e2e8f0);
+}
+
+.fund-allocation-section__toggle-thumb {
+  position: absolute;
+  left: 0.125rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  background: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.fund-allocation-section__toggle-desc {
+  margin: var(--spacing-2) 0 0 calc(20px + var(--spacing-3));
+  font-size: 0.875em;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.fund-allocation-section__subsection {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: var(--spacing-4);
+}
+
+.fund-allocation-section__subsection:last-of-type {
+  margin-bottom: 0;
+}
+
+.fund-allocation-section__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background: var(--color-background-secondary);
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.fund-allocation-section__trigger:hover {
+  background: var(--color-background);
+}
+
+.fund-allocation-section__trigger-title {
+  flex: 0 0 auto;
+}
+
+.fund-allocation-section__trigger-meta {
+  font-size: 0.875em;
+  color: var(--color-text-secondary);
+}
+
+.fund-allocation-section__badge {
+  margin-left: auto;
+  font-weight: 600;
+  font-size: 0.875em;
+  padding: 0.2em 0.5em;
+  border-radius: var(--radius-sm);
+}
+
+.fund-allocation-section__badge--error {
+  color: var(--color-error, #dc2626);
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.fund-allocation-section__badge--warning {
+  color: #b45309;
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.fund-allocation-section__badge--success {
+  color: #15803d;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.fund-allocation-section__chevron {
+  font-size: 0.75em;
+  color: var(--color-text-secondary);
+}
+
+.fund-allocation-section__content {
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease;
+}
+
+.fund-allocation-section__content--expanded {
+  max-height: 5000px;
+  overflow: visible;
+}
+
+.fund-allocation-section__description {
+  padding: var(--spacing-3) var(--spacing-4) 0;
+  margin: 0 0 var(--spacing-2) 0;
+  font-size: 0.875em;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.fund-allocation-section__actions {
+  padding: 0 var(--spacing-4) var(--spacing-3);
+}
+
+.fund-allocation-section__add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9375em;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.fund-allocation-section__add-btn:hover {
+  background: var(--color-primary-hover);
+}
+
+.fund-allocation-section__funds {
+  padding: var(--spacing-4);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-3);
+}
+
+.fund-allocation-section__fund-card {
+  min-width: 0;
+}
+
+.fund-allocation-section__total-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: var(--spacing-3) var(--spacing-4) var(--spacing-2);
+  padding: var(--spacing-2) 0;
+  font-size: 0.9375em;
+  font-weight: 500;
+}
+
+.fund-allocation-section__total-line--invalid .fund-allocation-section__total-value {
+  color: var(--color-error, #dc2626);
+  font-weight: 600;
+}
+
+.fund-allocation-section__total-label {
+  color: var(--color-text-secondary);
+}
+
+.fund-allocation-section__total-value {
+  color: var(--color-text);
+}
+
+.fund-allocation-section__global-status {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  font-size: 0.9375em;
+}
+
+.fund-allocation-section__global-status--success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+}
+
+.fund-allocation-section__global-status--success .fund-allocation-section__global-icon {
+  color: #22c55e;
+}
+
+.fund-allocation-section__global-status--error {
+  background: rgba(220, 38, 38, 0.1);
+  color: var(--color-error, #dc2626);
+}
+
+.fund-allocation-section__global-status--warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #b45309;
+}
+
+.fund-allocation-section__global-icon {
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+/* Responsive: tablet 768–1024 two-column fund rows */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .fund-allocation-section__funds {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop >1024: full-width rows (FundAllocationRow is already horizontal) */
+@media (min-width: 1025px) {
+  .fund-allocation-section__funds {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .fund-allocation-section__container {
+    padding: var(--spacing-3);
+  }
+
+  .fund-allocation-section__funds {
+    padding: var(--spacing-2);
+  }
+}
+
 .allocation-summary__cta {
   width: 100%;
   padding: var(--spacing-3) var(--spacing-4);
@@ -12506,7 +13030,7 @@ button {
 
 .ped-banner__cta {
   background: #ffffff;
-  color: var(--accent-primary, var(--color-primary));
+  color: var(--color-primary);
   border: none;
   padding: var(--spacing-3) var(--spacing-5);
   font-size: 0.9375em;
@@ -12514,16 +13038,26 @@ button {
   border-radius: var(--radius-md);
   cursor: pointer;
   flex-shrink: 0;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
 .ped-banner__cta--pill {
-  background: rgba(59, 130, 246, 0.9);
-  color: #ffffff;
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
   border-radius: 999px;
+}
+
+.ped-banner__cta--pill:hover {
+  background: var(--color-primary-hover);
 }
 
 .ped-banner__cta:hover {
   opacity: 0.95;
+}
+
+.ped-banner__cta:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 /* Quick Actions buttons */

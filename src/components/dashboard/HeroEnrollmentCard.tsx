@@ -70,7 +70,7 @@ export const HeroEnrollmentCard = ({
               {description}
             </p>
             <Button
-              className="rounded-lg bg-blue-600 px-6 py-2.5 font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400"
+              className="rounded-2xl px-8 py-3.5 font-semibold text-white bg-primary hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 dark:focus-visible:outline-offset-slate-900 transition-colors shadow-md hover:shadow-lg"
               onClick={handleEnrollClick}
             >
               Enroll Now

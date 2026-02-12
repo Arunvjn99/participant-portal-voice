@@ -103,12 +103,12 @@ export const ChoosePlan = () => {
   return (
     <DashboardLayout header={<DashboardHeader />}>
       <div className="choose-plan">
-        <div className="enrollment-stepper-section choose-plan__progress">
-          <EnrollmentStepper
-            currentStep={0}
-            title="Choose your plan"
-            subtitle="Based on your personalised information, we've recommended a plan that fits your needs. You have other eligible plans to choose from."
-          />
+        <div className="choose-plan__progress">
+          <EnrollmentStepper currentStep={0} />
+          <div className="choose-plan__header">
+            <h1 className="choose-plan__title">Choose your plan</h1>
+            <p className="choose-plan__subtitle">Based on your personalised information, we've recommended a plan that fits your needs. You have other eligible plans to choose from.</p>
+          </div>
         </div>
 
         <div className="choose-plan__content">

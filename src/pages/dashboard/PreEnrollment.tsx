@@ -1,11 +1,13 @@
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 import { DashboardHeader } from "../../components/dashboard/DashboardHeader";
-import { HeroEnrollmentCard } from "../../components/dashboard/HeroEnrollmentCard";
+import { HeroSection, LearningSection, AdvisorSection } from "../../components/pre-enrollment";
 
 export const PreEnrollment = () => {
   return (
     <DashboardLayout header={<DashboardHeader />}>
-      <HeroEnrollmentCard />
+      <HeroSection />
+      <LearningSection />
+      <AdvisorSection />
     </DashboardLayout>
   );
 };
