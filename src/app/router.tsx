@@ -8,6 +8,7 @@ import { HelpCenter } from "../pages/auth/HelpCenter";
 import { PreEnrollment } from "../pages/dashboard/PreEnrollment";
 import { Dashboard } from "../pages/dashboard/Dashboard";
 import { PostEnrollmentDashboard } from "../pages/dashboard/PostEnrollmentDashboard";
+import { DemoDashboard } from "../pages/dashboard/DemoDashboard";
 import { Profile } from "../pages/profile/Profile";
 import { EnrollmentManagement } from "../pages/enrollment/EnrollmentManagement";
 import { PlanDetailManagement } from "../pages/enrollment/PlanDetailManagement";
@@ -26,12 +27,11 @@ import InvestmentsPage from "../app/investments/page";
 import { EnrollmentInvestmentsGuard } from "../components/enrollment/EnrollmentInvestmentsGuard";
 import { EnrollmentInvestmentsContent } from "../components/enrollment/EnrollmentInvestmentsContent";
 import { EnrollmentReviewContent } from "../components/enrollment/EnrollmentReviewContent";
-import { BellaVoiceRoute } from "../pages/voice/BellaVoiceRoute";
 import { RootLayout } from "../layouts/RootLayout";
 
 /**
  * Router configuration using createBrowserRouter (React Router v6+)
- * RootLayout wraps all routes and renders FloatingRetirementSearch on every screen.
+ * RootLayout wraps all routes and renders CoreAIFab on every screen.
  */
 export const router = createBrowserRouter([
   {
@@ -64,6 +64,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <PreEnrollment />,
+      },
+      {
+        path: "/demo",
+        element: <DemoDashboard />,
       },
       {
         path: "/dashboard/classic",
@@ -148,10 +152,6 @@ export const router = createBrowserRouter([
             </InvestmentsLayout>
           </InvestmentProvider>
         ),
-      },
-      {
-        path: "/voice",
-        element: <BellaVoiceRoute />,
       },
     ],
   },

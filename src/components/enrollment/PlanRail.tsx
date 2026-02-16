@@ -47,18 +47,30 @@ const HorizontalTile: React.FC<{
         }
       }}
       className={`
-        relative w-full rounded-2xl transition-all duration-500 ease-out overflow-hidden border group
-        ${!isEligible ? "opacity-60 bg-slate-50 border-transparent grayscale-[0.8] cursor-not-allowed dark:bg-slate-800/50" : "cursor-pointer"}
+        relative w-full overflow-hidden group transition-all duration-300 ease-out
+        ${!isEligible ? "opacity-60 grayscale-[0.8] cursor-not-allowed" : "cursor-pointer"}
         ${isEligible && isRecommended
           ? isSelected
-            ? "bg-white border-indigo-600 shadow-[0_0_0_4px_rgba(99,102,241,0.15),0_12px_40px_-8px_rgba(79,70,229,0.2)] scale-[1.02] z-20 dark:bg-slate-800 dark:border-indigo-500"
-            : "bg-white/80 border-indigo-200/60 hover:border-indigo-300 hover:shadow-[0_8px_30px_-10px_rgba(99,102,241,0.15)] z-10 dark:bg-slate-800/80 dark:border-indigo-900/60"
+            ? "scale-[1.01] z-20"
+            : "z-10"
           : isEligible && isSelected
-            ? "bg-white border-slate-300 shadow-[0_8px_30px_rgb(0,0,0,0.06)] scale-[1.01] z-10 dark:bg-slate-800 dark:border-slate-600"
+            ? "scale-[1.005] z-10"
             : isEligible
-              ? "bg-white border-slate-200 hover:border-slate-300 hover:shadow-md z-0 dark:bg-slate-800 dark:border-slate-700"
+              ? "z-0"
               : ""}
       `}
+      style={{
+        background: !isEligible ? "var(--enroll-soft-bg)" : "var(--enroll-card-bg)",
+        border: isEligible && isRecommended && isSelected
+          ? "2px solid var(--enroll-brand)"
+          : isEligible && isRecommended
+            ? "1px solid rgb(var(--enroll-brand-rgb) / 0.2)"
+            : isSelected
+              ? "1px solid var(--enroll-card-border)"
+              : "1px solid var(--enroll-card-border)",
+        borderRadius: "var(--enroll-card-radius)",
+        boxShadow: isSelected ? "var(--enroll-elevation-3)" : "var(--enroll-elevation-2)",
+      }}
     >
       {/* Best-fit styling */}
       {isRecommended && isEligible && (

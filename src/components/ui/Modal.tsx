@@ -7,9 +7,13 @@ interface ModalProps {
   onClose: () => void;
   children: ReactNode;
   closeOnOverlayClick?: boolean;
+  /** Optional class for the dialog wrapper (e.g. max-w-lg to constrain width and remove right-side gap) */
+  dialogClassName?: string;
+  /** When true, adds min-height for wizard-type modals so steps don't jump */
+  wizard?: boolean;
 }
 
-export const Modal = ({ isOpen, onClose, children, closeOnOverlayClick = true }: ModalProps) => {
+export const Modal = ({ isOpen, onClose, children, closeOnOverlayClick = true, dialogClassName, wizard = false }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
 
@@ -104,7 +108,11 @@ export const Modal = ({ isOpen, onClose, children, closeOnOverlayClick = true }:
     >
       <div
         ref={modalRef}
-        className="modal-dialog"
+        className={[
+          "modal-dialog",
+          wizard && "modal-dialog--wizard",
+          dialogClassName,
+        ].filter(Boolean).join(" ")}
         role="dialog"
         aria-modal="true"
         tabIndex={-1}

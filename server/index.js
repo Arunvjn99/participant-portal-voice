@@ -1,6 +1,8 @@
 /**
- * Voice API Proxy Server
- * Secure backend proxy for Google Speech-to-Text and Text-to-Speech
+ * Participant Portal API Server
+ * Secure backend proxy for:
+ *  - Core AI (Gemini) — Scoped retirement assistant
+ *  - Google Speech-to-Text and Text-to-Speech
  * API keys are stored in environment variables only
  */
 
@@ -10,6 +12,7 @@ import multer from "multer";
 import { SpeechClient } from "@google-cloud/speech";
 import { TextToSpeechClient } from "@google-cloud/text-to-speech";
 import dotenv from "dotenv";
+import { generateCoreReply } from "./coreAiController.js";
 
 dotenv.config();
 
@@ -199,6 +202,36 @@ function sanitizeTextForTTS(text) {
 }
 
 /**
+ * POST /api/core-ai
+ * Core AI — Scoped retirement assistant powered by Gemini
+ * Validates topic scope before calling Gemini API
+ */
+app.post("/api/core-ai", async (req, res) => {
+  try {
+    const { message, context } = req.body;
+
+    if (!message || typeof message !== "string" || message.trim().length === 0) {
+      return res.status(400).json({
+        error: "No message provided",
+      });
+    }
+
+    const result = await generateCoreReply(message.trim(), context || {});
+
+    res.json({
+      reply: result.reply,
+      filtered: result.filtered || false,
+    });
+  } catch (error) {
+    console.error("Core AI Error:", error.message);
+    res.status(500).json({
+      error: "AI response failed",
+      reply: "I'm having trouble right now. Please try again in a moment.",
+    });
+  }
+});
+
+/**
  * Health check endpoint
  */
 app.get("/api/health", (req, res) => {
@@ -207,12 +240,14 @@ app.get("/api/health", (req, res) => {
     services: {
       stt: !!speechClient,
       tts: !!ttsClient,
+      coreAi: !!process.env.GEMINI_API_KEY,
     },
   });
 });
 
 app.listen(port, () => {
-  console.log(`Voice API server running on port ${port}`);
+  console.log(`API server running on port ${port}`);
+  console.log(`Core AI (Gemini): ${!!process.env.GEMINI_API_KEY ? "enabled" : "disabled (set GEMINI_API_KEY)"}`);
   console.log(`STT available: ${!!speechClient}`);
   console.log(`TTS available: ${!!ttsClient}`);
 });

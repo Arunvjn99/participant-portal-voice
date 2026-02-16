@@ -22,18 +22,18 @@ export const FloatingCards = () => {
   const [contribution, setContribution] = useState(6);
 
   return (
-    <div className="relative w-full h-full min-h-[480px] hidden lg:block select-none pointer-events-none lg:pointer-events-auto">
+    <div className="relative w-full h-full min-h-[480px] select-none pointer-events-auto">
       {/* Main projection card – front layer, subtle float */}
       <motion.div
-        className="absolute top-10 right-10 w-[22rem] lg:w-96 h-72 lg:h-80 glass-card rounded-3xl p-6 z-20 transition-shadow duration-300 shadow-[0_20px_40px_-12px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.3),0_0_0_1px_rgba(51,65,85,0.5)] hover:shadow-[0_24px_48px_-12px_rgba(139,92,246,0.18)] dark:hover:shadow-[0_24px_48px_-12px_rgba(139,92,246,0.25)]"
+        className="absolute top-10 right-4 xl:right-10 w-[20rem] xl:w-96 h-72 xl:h-80 glass-card rounded-3xl p-5 xl:p-6 z-20 transition-shadow duration-300 shadow-[0_20px_40px_-12px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.3),0_0_0_1px_rgba(51,65,85,0.5)] hover:shadow-[0_24px_48px_-12px_rgba(139,92,246,0.18)] dark:hover:shadow-[0_24px_48px_-12px_rgba(139,92,246,0.25)]"
         animate={{ y: [0, -6, 0] }}
         transition={{ ...floatTransition, delay: 0 }}
         whileHover={{ scale: 1.02, transition: { duration: 0.25 } }}
       >
         <div className="flex justify-between items-start mb-2">
-          <div>
+          <div className="min-w-0">
             <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Projected at 65</p>
-            <h3 className="text-3xl lg:text-4xl font-display font-bold text-slate-800 dark:text-slate-100 tracking-tight">
+            <h3 className="text-2xl xl:text-4xl font-display font-bold text-slate-800 dark:text-slate-100 tracking-tight">
               $1,240,000
             </h3>
           </div>
@@ -43,7 +43,7 @@ export const FloatingCards = () => {
           </div>
         </div>
 
-        <div className="h-44 lg:h-48 w-full -ml-2">
+        <div className="h-40 xl:h-48 w-full -ml-2">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data}>
               <defs>
@@ -75,7 +75,7 @@ export const FloatingCards = () => {
 
       {/* Insight chip – middle layer, delayed float */}
       <motion.div
-        className="absolute top-0 right-24 lg:right-28 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-white/60 dark:border-slate-600/80 z-30 flex items-center gap-3 shadow-lg dark:shadow-black/30"
+        className="absolute top-0 right-16 xl:right-28 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md px-3 xl:px-4 py-2.5 xl:py-3 rounded-2xl border border-white/60 dark:border-slate-600/80 z-30 flex items-center gap-2 xl:gap-3 shadow-lg dark:shadow-black/30 max-w-[260px]"
         animate={{ y: [0, -8, 0] }}
         transition={{ ...floatTransition, delay: 1.5 }}
         whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
@@ -91,7 +91,7 @@ export const FloatingCards = () => {
 
       {/* Contribution card – back layer, more float delay */}
       <motion.div
-        className="absolute bottom-16 left-6 lg:bottom-20 lg:left-10 w-72 lg:w-80 glass-card rounded-2xl p-6 z-10 border border-white/80 dark:border-slate-600/80 shadow-[0_16px_32px_-12px_rgba(0,0,0,0.1)] dark:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.35)]"
+        className="absolute bottom-10 left-2 xl:bottom-20 xl:left-10 w-64 xl:w-80 glass-card rounded-2xl p-4 xl:p-6 z-10 border border-white/80 dark:border-slate-600/80 shadow-[0_16px_32px_-12px_rgba(0,0,0,0.1)] dark:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.35)]"
         animate={{ y: [0, -5, 0] }}
         transition={{ ...floatTransition, delay: 3 }}
         whileHover={{ scale: 1.02, transition: { duration: 0.25 } }}

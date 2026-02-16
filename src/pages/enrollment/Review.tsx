@@ -1,9 +1,6 @@
 import { useState, useMemo, useCallback, useRef } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-import { DashboardLayout } from "../../layouts/DashboardLayout";
-import { DashboardHeader } from "../../components/dashboard/DashboardHeader";
 import { DashboardCard } from "../../components/dashboard/DashboardCard";
-import { EnrollmentStepper } from "../../components/enrollment/EnrollmentStepper";
 import { AllocationChart } from "../../components/investments/AllocationChart";
 import { useEnrollment } from "../../enrollment/context/EnrollmentContext";
 import { useInvestment } from "../../context/InvestmentContext";
@@ -245,7 +242,7 @@ export const Review = () => {
   );
 
   return (
-    <DashboardLayout header={<DashboardHeader />}>
+    <>
       {feedbackMessage && (
         <div
           role="status"
@@ -256,14 +253,6 @@ export const Review = () => {
         </div>
       )}
       <div className="flex min-w-0 flex-col gap-6 w-full pb-[100px]">
-        <div className="enrollment-stepper-section review-page__stepper w-full">
-          <EnrollmentStepper
-            currentStep={4}
-            title="Review Your Enrollment"
-            subtitle="Please review your selections before confirming enrollment."
-          />
-        </div>
-
         {/* Investment Goal Simulator - full width per Figma (505-4259) */}
         <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 px-4 py-6 sm:gap-6 sm:px-6 dark:from-blue-600 dark:to-blue-700">
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-4 sm:gap-6">
@@ -697,6 +686,6 @@ export const Review = () => {
           }}
         />
       </div>
-    </DashboardLayout>
+    </>
   );
 };

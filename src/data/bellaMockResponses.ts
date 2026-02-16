@@ -83,7 +83,7 @@ export const BELLA_MOCK_RESPONSES: { keywords: string[]; response: MockResponse 
     response: {
       answer:
         "Hi! I'm Core AI, your retirement assistant. Ask me about contributions, investments, your balance, or how to get started.",
-      primaryAction: { label: "Try Voice Mode", route: "/voice" },
+      primaryAction: { label: "Start Enrollment", route: "/enrollment" },
     },
   },
   {

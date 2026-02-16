@@ -100,10 +100,8 @@ export const TransactionApplicationRouter = () => {
     return <Navigate to="/transactions" replace />;
   }
 
-  const handleSubmit = async (transaction: Transaction, data: any) => {
-    // Handle transaction submission
-    console.log(`Submitting ${transactionType} application`, { transaction, data });
-    // TODO: Implement actual submission logic
+  const handleSubmit = async (_transaction: Transaction, _data: Record<string, unknown>) => {
+    // TODO: Implement actual submission logic (API call)
   };
 
   // Determine read-only mode based on transaction status

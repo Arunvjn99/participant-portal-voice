@@ -1,6 +1,7 @@
 import * as React from "react";
 
-const GREEN = "#4CAF50";
+/* Figma 662-582: active = blue fill, upcoming = grey outline, connector = dashed grey / solid blue */
+const BLUE_ACTIVE = "#2563eb";
 const GREY_LINE = "#e0e0e0";
 const GREY_LABEL = "#9e9e9e";
 const GREY_LABEL_ACTIVE = "#424242";
@@ -20,14 +21,7 @@ function ProgressLine({
   if (isLast) return null;
   return (
     <div
-      className="custom-stepper__connector"
-      style={{
-        flex: "1 1 0",
-        minWidth: "8px",
-        maxWidth: "40px",
-        height: "2px",
-        backgroundColor: completed ? GREEN : GREY_LINE,
-      }}
+      className={`custom-stepper__connector ${completed ? "custom-stepper__connector--completed" : "custom-stepper__connector--upcoming"}`}
       aria-hidden
     />
   );
@@ -58,13 +52,14 @@ function StepItem({
           alignItems: "center",
           justifyContent: "center",
           ...(isCompleted && {
-            backgroundColor: GREEN,
+            backgroundColor: BLUE_ACTIVE,
+            border: "2px solid #fff",
             color: "#fff",
           }),
           ...(isActive && {
-            backgroundColor: "#fff",
-            border: `2px solid ${GREEN}`,
-            color: GREEN,
+            backgroundColor: BLUE_ACTIVE,
+            border: "2px solid #fff",
+            color: "#fff",
           }),
           ...(status === "upcoming" && {
             backgroundColor: "#fff",

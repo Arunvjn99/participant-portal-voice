@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { DashboardLayout } from "./DashboardLayout";
+import { DashboardHeader } from "../components/dashboard/DashboardHeader";
 import { EnrollmentHeaderWithStepper } from "../components/enrollment/EnrollmentHeaderWithStepper";
 import { EnrollmentProvider } from "../enrollment/context/EnrollmentContext";
 import { loadEnrollmentDraft } from "../enrollment/enrollmentDraftStore";
@@ -30,7 +31,11 @@ function EnrollmentStepLayout() {
 
   if (isStep) {
     return (
-      <DashboardLayout header={<EnrollmentHeaderWithStepper activeStep={step} />} transparentBackground>
+      <DashboardLayout
+        header={<DashboardHeader />}
+        subHeader={<EnrollmentHeaderWithStepper activeStep={step} />}
+        transparentBackground
+      >
         <Outlet />
       </DashboardLayout>
     );
@@ -41,7 +46,8 @@ function EnrollmentStepLayout() {
 /**
  * EnrollmentLayout - Wraps enrollment routes with EnrollmentProvider.
  * For step routes (choose-plan, contribution, future-contributions, investments, review),
- * wraps with DashboardLayout + header-attached stepper. Seeds draft when available.
+ * wraps with DashboardLayout using the global DashboardHeader + enrollment stepper bar.
+ * Seeds draft when available.
  */
 export const EnrollmentLayout = () => {
   const draft = loadEnrollmentDraft();

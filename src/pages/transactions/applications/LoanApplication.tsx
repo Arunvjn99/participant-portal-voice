@@ -36,10 +36,8 @@ const loanSteps: TransactionStepDefinition[] = [
  * Loan Application using the generic TransactionApplication architecture
  */
 export const LoanApplication = () => {
-  const handleSubmit = async (transaction: Transaction, data: any) => {
-    // Handle loan submission
-    console.log("Submitting loan application", { transaction, data });
-    // TODO: Implement actual submission logic
+  const handleSubmit = async (_transaction: Transaction, _data: Record<string, unknown>) => {
+    // TODO: Implement actual submission logic (API call)
   };
 
   return (

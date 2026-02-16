@@ -282,7 +282,7 @@ button {
 }
 
 /* DashboardLayout main: neutral wrapper only. NO max-width, NO mx-auto.
-   Centering lives at page level via mx-auto max-w-[1440px] in DashboardLayout inner div. */
+   Centering lives at page level via mx-auto max-w-7xl in DashboardLayout inner div. */
 .dashboard-layout__main {
   flex: 1;
   width: 100%;
@@ -809,14 +809,13 @@ button {
   }
 }
 
-/* Modal Styles */
+/* ─── Modal Styles (Global) ─── */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -827,15 +826,20 @@ button {
 
 .modal-dialog {
   background-color: var(--card-bg);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-xl);
   width: 100%;
   max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: 90dvh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   outline: none;
+}
+
+/* Wizard-type modals — enforced min-height so steps don't jump */
+.modal-dialog--wizard {
+  min-height: min(540px, 80dvh);
 }
 
 /* Personalize plan wizard slider (Figma step 2, node 688:715) */
@@ -16178,4 +16182,78 @@ button {
     width: 64px;
     height: 64px;
   }
+}
+
+/* ── Investment Fund Slider (Premium) ── */
+.fund-row-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(
+    to right,
+    var(--slider-color, var(--enroll-brand)) 0%,
+    var(--slider-color, var(--enroll-brand)) var(--slider-pct, 0%),
+    var(--enroll-card-border) var(--slider-pct, 0%),
+    var(--enroll-card-border) 100%
+  );
+  transition: background 0.1s ease;
+}
+
+.fund-row-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--enroll-brand);
+  border: 3px solid var(--enroll-card-bg);
+  box-shadow: var(--enroll-elevation-2);
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fund-row-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px rgb(var(--enroll-brand-rgb) / 0.12);
+}
+
+.fund-row-slider::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+  cursor: grabbing;
+  box-shadow: 0 0 0 8px rgb(var(--enroll-brand-rgb) / 0.15);
+}
+
+.fund-row-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--enroll-brand);
+  border: 3px solid var(--enroll-card-bg);
+  box-shadow: var(--enroll-elevation-2);
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fund-row-slider::-moz-range-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.fund-row-slider:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.fund-row-slider:disabled::-webkit-slider-thumb {
+  cursor: not-allowed;
+}
+
+.fund-row-slider:disabled::-moz-range-thumb {
+  cursor: not-allowed;
 }

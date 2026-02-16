@@ -1191,92 +1191,9 @@ Focus ONLY on US retirement topics.`
     handleUserInput("What is my vested balance?", "chip");
   };
 
-  // Initial greeting (TTS only). No microphone or speech recognition here.
+  // Auto-speak removed: greeting is displayed as text only.
+  // Voice playback is user-controlled via play buttons on assistant messages.
   // Mic access must be user-initiated: browsers require a gesture (e.g. button click) for getUserMedia.
-  // Auto-start of recognition is blocked: without a user gesture, permission is denied or silently fails.
-  useEffect(() => {
-    // Speak initial greeting only once - wait for voices to load
-    if (!hasSpokenGreetingRef.current && 'speechSynthesis' in window) {
-      const initialGreeting = "Hi, I'm your retirement assistant. How can I help you?";
-      
-      console.log('🔊 Setting up initial greeting...');
-      console.log('Speech synthesis available:', 'speechSynthesis' in window);
-      console.log('Page visible:', document.visibilityState === 'visible');
-      
-      const speakGreeting = () => {
-        console.log('🔊 speakGreeting called');
-        const voices = window.speechSynthesis.getVoices();
-        console.log('Available voices:', voices.length);
-        
-        if (voices.length === 0) {
-          console.log('⏳ Waiting for voices to load...');
-          window.speechSynthesis.addEventListener('voiceschanged', () => {
-            console.log('✅ Voices loaded, speaking greeting...');
-            speakGreeting();
-          }, { once: true });
-          return;
-        }
-        
-        // Cancel any ongoing speech before speaking
-        window.speechSynthesis.cancel();
-        
-        if (!hasSpokenGreetingRef.current) {
-          console.log('🎤 Speaking initial greeting:', initialGreeting);
-          hasSpokenGreetingRef.current = true;
-          speak(initialGreeting);
-        } else {
-          console.log('⚠️ Greeting already spoken, skipping');
-        }
-      };
-      
-      // Try multiple times to ensure it works
-      const trySpeakGreeting = () => {
-        if (!hasSpokenGreetingRef.current) {
-          speakGreeting();
-        }
-      };
-      
-      // Immediate attempt
-      if (document.visibilityState === 'visible') {
-        console.log('📢 Page visible, scheduling greeting...');
-        setTimeout(trySpeakGreeting, 500);
-        setTimeout(trySpeakGreeting, 1500);
-        setTimeout(trySpeakGreeting, 3000);
-      } else {
-        console.log('⏸️ Page not visible, waiting...');
-        const handleVisibilityChange = () => {
-          if (document.visibilityState === 'visible' && !hasSpokenGreetingRef.current) {
-            console.log('👁️ Page became visible, speaking greeting...');
-            setTimeout(trySpeakGreeting, 500);
-            setTimeout(trySpeakGreeting, 1500);
-          }
-        };
-        document.addEventListener('visibilitychange', handleVisibilityChange, { once: true });
-      }
-      
-      // Force speak after delays
-      setTimeout(() => {
-        if (!hasSpokenGreetingRef.current) {
-          console.log('🔄 Fallback 1: Forcing greeting speech');
-          trySpeakGreeting();
-        }
-      }, 2000);
-      
-      setTimeout(() => {
-        if (!hasSpokenGreetingRef.current) {
-          console.log('🔄 Fallback 2: Forcing greeting speech');
-          const voices = window.speechSynthesis.getVoices();
-          console.log('Voices at fallback:', voices.length);
-          window.speechSynthesis.cancel();
-          speak(initialGreeting);
-          hasSpokenGreetingRef.current = true;
-        }
-      }, 5000);
-    } else {
-      console.warn('⚠️ Speech synthesis not available or greeting already spoken');
-    }
-    
-  }, []);
 
   /** Stop current speech recognition. Only runs when we have an active instance and are listening. */
   const stopListening = () => {
@@ -1425,24 +1342,16 @@ Focus ONLY on US retirement topics.`
     }
   };
 
-  // Apply dark mode class to body and remove any default borders/outlines
+  // Dark mode class applied to the wrapper div only (no body mutation when embedded)
   useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    if (variant === "fullpage") {
+      if (isDarkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     }
-    
-    // Remove any default borders/outlines that might create visible lines
-    document.body.style.margin = '0';
-    document.body.style.padding = '0';
-    document.body.style.border = 'none';
-    document.body.style.outline = 'none';
-    document.documentElement.style.margin = '0';
-    document.documentElement.style.padding = '0';
-    document.documentElement.style.border = 'none';
-    document.documentElement.style.outline = 'none';
-  }, [isDarkMode]);
+  }, [isDarkMode, variant]);
 
   return (
     <div

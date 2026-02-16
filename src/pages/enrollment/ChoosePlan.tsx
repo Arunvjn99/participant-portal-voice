@@ -4,6 +4,7 @@ import { useEnrollment } from "../../enrollment/context/EnrollmentContext";
 import { PlanRail } from "../../components/enrollment/PlanRail";
 import { PlanDetailsPanel } from "../../components/enrollment/PlanDetailsPanel";
 import { EnrollmentFooter } from "../../components/enrollment/EnrollmentFooter";
+import { EnrollmentPageContent } from "../../components/enrollment/EnrollmentPageContent";
 import { loadEnrollmentDraft, saveEnrollmentDraft } from "../../enrollment/enrollmentDraftStore";
 import { getPlanRecommendation } from "../../enrollment/logic/planRecommendationLogic";
 import type { PlanOption, PlanRecommendation } from "../../types/enrollment";
@@ -129,16 +130,10 @@ export const ChoosePlan = () => {
   const canContinue = state.selectedPlan != null && (selectedPlan?.isEligible !== false);
 
   return (
-    <div className="choose-plan">
-      <div className="choose-plan__progress mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">
-          Select your retirement plan
-        </h1>
-        <p className="text-slate-500 dark:text-slate-400">
-          Choose an option to see how it affects your future savings.
-        </p>
-      </div>
-
+    <EnrollmentPageContent
+      title="Select your retirement plan"
+      subtitle="Choose an option to see how it affects your future savings."
+    >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div className="lg:col-span-7 space-y-8">
           <PlanRail
@@ -147,9 +142,9 @@ export const ChoosePlan = () => {
             onSelect={handlePlanSelect}
           />
           <div className="lg:hidden">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-sm" style={{ color: "var(--enroll-text-muted)" }}>
               Need help deciding? Our advisors are available to discuss which plan is right for your financial goals.{" "}
-              <a href="#" className="text-indigo-600 dark:text-indigo-400 underline" onClick={(e) => e.preventDefault()}>
+              <a href="#" className="underline" style={{ color: "var(--enroll-brand)" }} onClick={(e) => e.preventDefault()}>
                 Schedule a consultation
               </a>
             </p>
@@ -157,19 +152,10 @@ export const ChoosePlan = () => {
         </div>
 
         <div className="lg:col-span-5 relative">
-          <div className="lg:sticky lg:top-24 transition-all duration-500">
+          <div className="lg:sticky lg:top-24 transition-all duration-300">
             <PlanDetailsPanel plan={selectedPlan} user={userSnapshot} rationale={recommendation.rationale} />
           </div>
         </div>
-      </div>
-
-      <div className="mt-8 block lg:hidden">
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          Need help deciding? Our advisors are available.{" "}
-          <a href="#" className="text-indigo-600 dark:text-indigo-400 underline" onClick={(e) => e.preventDefault()}>
-            Schedule a consultation
-          </a>
-        </p>
       </div>
 
       <EnrollmentFooter
@@ -179,6 +165,6 @@ export const ChoosePlan = () => {
         onPrimary={handleContinue}
         getDraftSnapshot={() => ({ selectedPlanId: state.selectedPlan ?? null })}
       />
-    </div>
+    </EnrollmentPageContent>
   );
 };

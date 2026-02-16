@@ -1,9 +1,6 @@
 import { useMemo, useState, useCallback } from "react";
 import { useNavigate, Link, Navigate } from "react-router-dom";
-import { DashboardLayout } from "../../layouts/DashboardLayout";
-import { DashboardHeader } from "../../components/dashboard/DashboardHeader";
 import { useEnrollment } from "../../enrollment/context/EnrollmentContext";
-import { EnrollmentStepper } from "../../components/enrollment/EnrollmentStepper";
 import { EnrollmentFooter } from "../../components/enrollment/EnrollmentFooter";
 import { InvestmentProfileWizard } from "../../components/enrollment/InvestmentProfileWizard";
 import {
@@ -185,16 +182,8 @@ export const FutureContributions = () => {
   }
 
   return (
-    <DashboardLayout header={<DashboardHeader />}>
+    <>
       <div className="future-contributions">
-        <div className="enrollment-stepper-section">
-          <EnrollmentStepper
-            currentStep={2}
-            title="Grow your savings automatically each year?"
-            subtitle="Most people turn this on to stay on track for retirement."
-          />
-        </div>
-
         <div className="future-contributions__grid">
           {/* Left: Auto-Increase Configuration — Figma 551-722 */}
           <div className="future-contributions__left">
@@ -429,7 +418,7 @@ export const FutureContributions = () => {
           onComplete={handleWizardComplete}
         />
       )}
-    </DashboardLayout>
+    </>
   );
 };
 

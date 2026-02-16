@@ -37,6 +37,7 @@
   /* Status Colors */
   --color-danger: #ef4444;
   --color-danger-rgb: 239 68 68;
+  --color-warning-rgb: 245 158 11;
 
   /* Background Colors (base - overridden by themes) */
   --color-background: #ffffff;
@@ -102,4 +103,48 @@
   --chart-8: #84cc16;
   --chart-9: #f97316;
   --chart-10: #6366f1;
+
+  /* ── Enrollment Design System ── */
+
+  /* Page background */
+  --enroll-bg: #f8fafc;
+
+  /* Brand */
+  --enroll-brand: #4f46e5;
+  --enroll-brand-rgb: 79 70 229;
+  --enroll-accent: #22c55e;
+  --enroll-accent-rgb: 34 197 94;
+
+  /* Text */
+  --enroll-text-primary: #0f172a;
+  --enroll-text-secondary: #475569;
+  --enroll-text-muted: #94a3b8;
+
+  /* Surfaces & borders */
+  --enroll-card-bg: #ffffff;
+  --enroll-card-border: #e2e8f0;
+  --enroll-card-radius: 16px;
+  --enroll-soft-bg: #f1f5f9;
+
+  /* Elevation (standardized — light, never heavy) */
+  --enroll-elevation-1: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --enroll-elevation-2: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --enroll-elevation-3: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* ── Investment Slider ── */
+  --inv-slider-track: var(--enroll-card-border);
+  --inv-slider-fill: var(--enroll-brand);
+  --inv-slider-thumb: var(--enroll-brand);
+
+  /* HeroUI-inspired design system (v3.heroui.com) */
+  --heroui-radius: 0.75rem;        /* 12px - rounded-xl */
+  --heroui-radius-sm: 0.5rem;     /* 8px - rounded-lg */
+  --heroui-input-bg: transparent;
+  --heroui-input-border: 2px solid var(--color-border);
+  --heroui-input-focus-ring: 0 0 0 2px var(--color-primary);
+  --heroui-card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --heroui-card-hover-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --heroui-switch-track: var(--color-background-tertiary);
+  --heroui-switch-track-checked: var(--color-primary);
+  --heroui-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }

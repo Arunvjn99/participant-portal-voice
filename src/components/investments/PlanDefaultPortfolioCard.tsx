@@ -1,78 +1,144 @@
-import { DashboardCard } from "../dashboard/DashboardCard";
-import { ModerateInvestorChip } from "./ModerateInvestorChip";
+import { motion } from "framer-motion";
+import { useInvestment } from "../../context/InvestmentContext";
 
-/** Filter icon for header */
-const FilterIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-    <line x1="4" y1="6" x2="20" y2="6" />
-    <line x1="4" y1="12" x2="20" y2="12" />
-    <line x1="4" y1="18" x2="20" y2="18" />
-    <circle cx="18" cy="6" r="2" fill="currentColor" />
-    <circle cx="6" cy="12" r="2" fill="currentColor" />
-    <circle cx="14" cy="18" r="2" fill="currentColor" />
-  </svg>
-);
+const cardStyle: React.CSSProperties = {
+  background: "var(--enroll-card-bg)",
+  border: "1px solid var(--enroll-card-border)",
+  borderRadius: "var(--enroll-card-radius)",
+  boxShadow: "var(--enroll-elevation-2)",
+};
 
-/**
- * Plan Default Portfolio card - Figma design
- * Shows recommended strategy with MODERATE INVESTOR badge, info banner, metrics.
- * Edit toggle moved to FUND ALLOCATION section (Figma 293-840).
- */
+function formatRiskLabel(risk: number): string {
+  if (risk < 3) return "Conservative";
+  if (risk < 5) return "Moderate";
+  if (risk < 7) return "Growth";
+  return "Aggressive";
+}
+
+function getRiskColor(risk: number): string {
+  if (risk < 3) return "var(--enroll-accent)";
+  if (risk < 5) return "var(--enroll-brand)";
+  if (risk < 7) return "var(--color-warning)";
+  return "var(--color-danger)";
+}
+
 export const PlanDefaultPortfolioCard = () => {
+  const { weightedSummary } = useInvestment();
+  const { expectedReturn, riskLevel } = weightedSummary;
+  const riskLabel = formatRiskLabel(riskLevel);
+  const riskColor = getRiskColor(riskLevel);
+  const riskPct = Math.min(100, (riskLevel / 10) * 100);
+
   return (
-    <DashboardCard>
-      <div className="flex flex-col gap-4">
-        {/* Header: icon | title block | filter - per Figma 293-777 */}
-        <div className="flex items-start gap-3">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-blue-500 text-white">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="4" y="4" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="14" y="4" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="4" y="14" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="14" y="14" width="6" height="6" rx="1" fill="currentColor" />
-            </svg>
-          </div>
-          <div className="min-w-0 flex-1">
-            <h3 className="m-0 text-xl font-semibold text-foreground">Plan Default Portfolio</h3>
-            <div className="mt-2 flex flex-wrap items-center gap-2">
-              <ModerateInvestorChip variant="badge">MODERATE INVESTOR</ModerateInvestorChip>
-              <span className="text-sm text-muted-foreground">88% confidence</span>
-            </div>
-          </div>
-          <button
-            type="button"
-            className="rounded p-1.5 text-muted-foreground transition-colors hover:bg-slate-100 hover:text-foreground dark:hover:bg-slate-800 dark:hover:text-foreground"
-            aria-label="Filter options"
-          >
-            <FilterIcon />
-          </button>
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="p-6"
+      style={cardStyle}
+    >
+      <div className="flex items-start gap-4">
+        {/* Icon */}
+        <div
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+          style={{ background: "rgb(var(--enroll-brand-rgb) / 0.1)", color: "var(--enroll-brand)" }}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="4" y="4" width="6" height="6" rx="1.5" fill="currentColor" />
+            <rect x="14" y="4" width="6" height="6" rx="1.5" fill="currentColor" />
+            <rect x="4" y="14" width="6" height="6" rx="1.5" fill="currentColor" />
+            <rect x="14" y="14" width="6" height="6" rx="1.5" fill="currentColor" />
+          </svg>
         </div>
 
-        {/* Info banner - light blue bg, info icon, dark blue text per Figma */}
-        <div className="flex gap-3 rounded-lg bg-blue-50 p-4 dark:bg-blue-950/30">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-blue-500 bg-blue-500 text-white dark:border-blue-400 dark:bg-blue-600">
-            <span className="text-sm font-bold">i</span>
-          </div>
-          <p className="m-0 text-[0.9375em] leading-relaxed text-blue-900 dark:text-blue-100">
-            Your balanced approach to risk and return indicates a moderate portfolio is ideal. A 60% stocks / 40% bonds allocation provides growth potential while maintaining stability, suitable for most investors with 10+ year horizons.
-          </p>
-        </div>
-        {/* Metrics row */}
-        <div className="flex flex-wrap gap-4">
-          <div className="flex flex-col gap-0.5">
-            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">EXPECTED RETURN</span>
-            <span className="font-semibold text-green-600 dark:text-green-400">6-8%</span>
-          </div>
-          <div className="flex flex-col gap-0.5">
-            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">VOLATILITY RANGE</span>
-            <span className="font-semibold text-foreground">Moderate (10-15%)</span>
-          </div>
-          <div className="flex flex-col gap-0.5">
-            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">RISK LEVEL</span>
-            <ModerateInvestorChip variant="pill">Medium</ModerateInvestorChip>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-lg font-bold" style={{ color: "var(--enroll-text-primary)" }}>
+            Plan Default Portfolio
+          </h3>
+          <div className="mt-1 flex flex-wrap items-center gap-2">
+            <span
+              className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider rounded-full"
+              style={{
+                background: `rgb(var(--enroll-brand-rgb) / 0.08)`,
+                color: "var(--enroll-brand)",
+              }}
+            >
+              {riskLabel} Investor
+            </span>
+            <span className="text-xs" style={{ color: "var(--enroll-text-muted)" }}>
+              88% confidence
+            </span>
           </div>
         </div>
       </div>
-    </DashboardCard>
+
+      {/* Info banner */}
+      <div
+        className="flex gap-3 rounded-xl p-4 mt-4"
+        style={{
+          background: "rgb(var(--enroll-brand-rgb) / 0.04)",
+          border: "1px solid rgb(var(--enroll-brand-rgb) / 0.08)",
+        }}
+      >
+        <div
+          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+          style={{ background: "var(--enroll-brand)", color: "white" }}
+        >
+          i
+        </div>
+        <p className="text-sm leading-relaxed" style={{ color: "var(--enroll-text-secondary)" }}>
+          Your balanced approach suggests a moderate portfolio. A 60/40 stocks-to-bonds ratio provides growth potential while maintaining stability for 10+ year horizons.
+        </p>
+      </div>
+
+      {/* Metrics */}
+      <div className="mt-5 grid grid-cols-3 gap-4">
+        <div
+          className="rounded-xl p-3"
+          style={{ background: "var(--enroll-soft-bg)", border: "1px solid var(--enroll-card-border)" }}
+        >
+          <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "var(--enroll-text-muted)" }}>
+            Expected Return
+          </p>
+          <p className="text-base font-bold mt-0.5" style={{ color: "var(--enroll-accent)" }}>
+            {expectedReturn > 0 ? `${expectedReturn.toFixed(1)}%` : "6-8%"}
+          </p>
+        </div>
+        <div
+          className="rounded-xl p-3"
+          style={{ background: "var(--enroll-soft-bg)", border: "1px solid var(--enroll-card-border)" }}
+        >
+          <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "var(--enroll-text-muted)" }}>
+            Volatility
+          </p>
+          <p className="text-base font-bold mt-0.5" style={{ color: "var(--enroll-text-primary)" }}>
+            Moderate
+          </p>
+        </div>
+        <div
+          className="rounded-xl p-3"
+          style={{ background: "var(--enroll-soft-bg)", border: "1px solid var(--enroll-card-border)" }}
+        >
+          <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "var(--enroll-text-muted)" }}>
+            Risk Level
+          </p>
+          {/* Animated risk bar */}
+          <div className="mt-1.5">
+            <div className="h-1.5 w-full rounded-full overflow-hidden" style={{ background: "var(--enroll-card-border)" }}>
+              <motion.div
+                className="h-full rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${riskPct}%` }}
+                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                style={{ background: riskColor }}
+              />
+            </div>
+            <p className="text-[10px] font-semibold mt-1" style={{ color: riskColor }}>
+              {riskLabel}
+            </p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 };
